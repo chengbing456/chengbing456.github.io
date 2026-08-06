@@ -21,6 +21,7 @@
       font-family: 'Courier New', Courier, monospace;
       touch-action: manipulation;
       overflow: hidden;
+      padding: 10px;
     }
     .game-container {
       position: relative;
@@ -29,45 +30,49 @@
       border-radius: 16px;
       overflow: hidden;
       max-width: 100%;
+      width: 100%;
+      aspect-ratio: 4 / 3;
       background: #0f0a07;
     }
     canvas {
       display: block;
       width: 100%;
-      height: auto;
+      height: 100%;
       background: #0a0806;
     }
     .top-hud {
       position: absolute;
-      top: 12px;
-      left: 15px;
-      right: 15px;
+      top: 8px;
+      left: 10px;
+      right: 10px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       color: #f0e3ce;
       text-shadow: 2px 2px 0 #000;
       font-weight: bold;
-      font-size: clamp(13px, 3.5vw, 17px);
+      font-size: clamp(11px, 3vw, 15px);
       pointer-events: none;
       background: rgba(10, 5, 2, 0.7);
-      padding: 8px 16px;
-      border-radius: 30px;
+      padding: 5px 12px;
+      border-radius: 20px;
       backdrop-filter: blur(4px);
       letter-spacing: 1px;
       border: 1px solid #5e4a38;
+      gap: 10px;
+      flex-wrap: wrap;
     }
     .message-area {
       position: absolute;
-      top: 65px;
+      top: 45px;
       left: 50%;
       transform: translateX(-50%);
       background: rgba(0,0,0,0.85);
       color: #ffeedd;
-      padding: 6px 22px;
-      border-radius: 25px;
+      padding: 4px 16px;
+      border-radius: 20px;
       font-weight: bold;
-      font-size: 14px;
+      font-size: 12px;
       white-space: nowrap;
       border: 1px solid #7b6852;
       pointer-events: none;
@@ -88,9 +93,10 @@
       text-align: center;
       z-index: 20;
       pointer-events: auto;
+      padding: 20px;
     }
     .intro-text {
-      font-size: 22px;
+      font-size: clamp(16px, 4vw, 22px);
       margin-bottom: 20px;
       text-shadow: 0 0 15px black;
       line-height: 1.5;
@@ -99,20 +105,20 @@
       background: #3b2b1b;
       color: #f5e7d3;
       border: 2px solid #8b7355;
-      padding: 12px 35px;
+      padding: 10px 30px;
       border-radius: 30px;
-      font-size: 20px;
+      font-size: 18px;
       font-weight: bold;
       cursor: pointer;
     }
     .joystick-zone {
       position: absolute;
-      bottom: 25px;
-      left: 25px;
-      width: 110px;
-      height: 110px;
+      bottom: 15px;
+      left: 15px;
+      width: 85px;
+      height: 85px;
       background: rgba(25, 18, 12, 0.6);
-      border-radius: 70px;
+      border-radius: 55px;
       border: 2px solid #5e4c3b;
       backdrop-filter: blur(8px);
       display: flex;
@@ -121,61 +127,61 @@
       touch-action: none;
     }
     .joystick-thumb {
-      width: 55px;
-      height: 55px;
+      width: 42px;
+      height: 42px;
       background: #3f3122;
-      border-radius: 35px;
+      border-radius: 28px;
       border: 2px solid #b89a7a;
       box-shadow: 0 4px 10px black;
       background: radial-gradient(circle at 30% 30%, #6b5a4a, #2f1f12);
     }
     .action-buttons {
       position: absolute;
-      bottom: 35px;
-      right: 25px;
+      bottom: 20px;
+      right: 15px;
       display: flex;
       flex-direction: column;
-      gap: 15px;
+      gap: 10px;
     }
     .stairs-btn {
       background: #3b2b1b;
       color: #eedbc8;
       border: 2px solid #8b7355;
-      width: 65px;
-      height: 65px;
-      border-radius: 40px;
-      font-size: 28px;
+      width: 50px;
+      height: 50px;
+      border-radius: 30px;
+      font-size: 22px;
       font-weight: bold;
       display: flex;
       align-items: center;
       justify-content: center;
       background: radial-gradient(circle at 30% 30%, #5e4a38, #2a1c10);
-      box-shadow: 0 6px 10px black;
+      box-shadow: 0 4px 8px black;
       cursor: pointer;
       touch-action: manipulation;
     }
     .restart-btn {
       position: absolute;
-      bottom: 25px;
-      left: 160px;
+      bottom: 15px;
+      left: 115px;
       background: #2d1f14;
       color: #dac29c;
       border: 2px solid #6b5a4a;
-      padding: 10px 18px;
-      border-radius: 30px;
+      padding: 6px 14px;
+      border-radius: 20px;
       font-weight: bold;
       cursor: pointer;
-      font-size: 15px;
+      font-size: 13px;
       backdrop-filter: blur(5px);
     }
   </style>
 </head>
 <body>
-<div style="position: relative; width: 100%; max-width: 800px;">
+<div style="position: relative; width: 100%; max-width: 500px;">
   <div class="game-container" id="gameContainer">
     <canvas id="gameCanvas" width="800" height="600"></canvas>
     <div class="intro-overlay" id="introOverlay">
-      <div class="intro-text">雨夜，你迷失在森林…<br>躲进木屋，却发现二楼有两只鬼魂徘徊。<br>找到一楼柜子钥匙，打开二楼柜子取得大门钥匙逃离。</div>
+      <div class="intro-text">雨夜，你迷失在森林…<br>躲进木屋，却发现二楼有两只鬼魂徘徊。<br>找到一楼柜子钥匙，打开二楼柜子取得大门钥匙逃离。橙子出品</div>
       <button class="start-btn" id="startButton">进入木屋</button>
     </div>
     <div class="top-hud">
@@ -287,7 +293,9 @@
     function switchFloor() {
       if (gameOver || win) return;
       const px = player.x, py = player.y;
-      if (px > stairs.x && px < stairs.x+stairs.w && py > stairs.y && py < stairs.y+stairs.h) {
+      const inStairsZone = (px > stairs.x && px < stairs.x+stairs.w && py > stairs.y && py < stairs.y+stairs.h);
+      
+      if (inStairsZone) {
         if (currentFloor === 1) {
           currentFloor = 2;
           player.x = stairs.floor2Pos.x;
@@ -395,7 +403,6 @@
         drawSecondFloor();
         if(!gameOver||deathTimer<=0) drawPlayer();
         ghosts.forEach(g => { if(g.visible && !gameOver) drawGhost(g); });
-        // 纯黑视野
         ctx.save();
         ctx.fillStyle='#000000';
         ctx.beginPath();
@@ -478,7 +485,6 @@
       for(let i=0;i<95;i++){ let x=(i*24+Date.now()*0.35)%W; let y=(i*13)%H; ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x-2,y+12); ctx.stroke(); }
     }
 
-    // 摇杆
     const joystickBase=document.getElementById('joystickBase');
     const joystickThumb=document.getElementById('joystickThumb');
     let active=false;
@@ -489,7 +495,7 @@
       const rect=joystickBase.getBoundingClientRect();
       const cx=rect.left+rect.width/2, cy=rect.top+rect.height/2;
       let dx=touch.clientX-cx, dy=touch.clientY-cy;
-      const dist=Math.hypot(dx,dy), max=45;
+      const dist=Math.hypot(dx,dy), max=32;
       if(dist>max){ dx=(dx/dist)*max; dy=(dy/dist)*max; }
       joystickThumb.style.transform=`translate(${dx}px,${dy}px)`;
       movePower=Math.min(dist/max,1); moveAngle=Math.atan2(dy,dx);

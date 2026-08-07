@@ -3,184 +3,37 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>雨夜木屋 · 增强版</title>
+  <title>雨夜木屋v1.2</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-      user-select: none;
-    }
-    body {
-      background: #0a0c0f;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      font-family: 'Courier New', monospace;
-      touch-action: manipulation;
-      overflow: hidden;
-      padding: 5px;
-    }
-    .game-container {
-      position: relative;
-      box-shadow: 0 0 45px rgba(0,0,0,0.9);
-      border: 3px solid #3a2e22;
-      border-radius: 16px;
-      overflow: hidden;
-      max-width: 100%;
-      width: 100%;
-      aspect-ratio: 4/3;
-      background: #0f0a07;
-    }
-    canvas {
-      display: block;
-      width: 100%;
-      height: 100%;
-      background: #0a0806;
-    }
-    .top-hud {
-      position: absolute;
-      top: 4px;
-      left: 6px;
-      right: 6px;
-      display: flex;
-      justify-content: space-between;
-      color: #f0e3ce;
-      text-shadow: 1px 1px 0 #000;
-      font-weight: bold;
-      font-size: 10px;
-      pointer-events: none;
-      background: rgba(10,5,2,0.7);
-      padding: 3px 8px;
-      border-radius: 12px;
-      border: 1px solid #5e4a38;
-      z-index: 10;
-      gap: 4px;
-    }
-    .stamina-bar {
-      position: absolute;
-      top: 28px;
-      left: 10px;
-      width: 60px;
-      height: 4px;
-      background: #333;
-      border-radius: 2px;
-      z-index: 10;
-    }
-    .stamina-fill {
-      height: 100%;
-      background: #88cc44;
-      border-radius: 2px;
-      transition: width 0.2s;
-    }
-    .message-area {
-      position: absolute;
-      top: 35px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(0,0,0,0.85);
-      color: #ffeedd;
-      padding: 2px 12px;
-      border-radius: 12px;
-      font-weight: bold;
-      font-size: 10px;
-      white-space: nowrap;
-      border: 1px solid #7b6852;
-      pointer-events: none;
-      z-index: 10;
-    }
-    .intro-overlay {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.9);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      color: #d4c0a8;
-      text-align: center;
-      z-index: 20;
-    }
-    .intro-text {
-      font-size: clamp(12px, 3vw, 18px);
-      margin-bottom: 12px;
-      line-height: 1.4;
-    }
-    .start-btn {
-      background: #3b2b1b;
-      color: #f5e7d3;
-      border: 2px solid #8b7355;
-      padding: 6px 20px;
-      border-radius: 20px;
-      font-size: 14px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .touch-hint {
-      position: absolute;
-      bottom: 15px;
-      left: 15px;
-      color: rgba(255,255,255,0.4);
-      font-size: 9px;
-      pointer-events: none;
-      z-index: 10;
-    }
-    .action-btns {
-      position: absolute;
-      bottom: 15px;
-      right: 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      z-index: 10;
-    }
-    .act-btn {
-      background: #3b2b1b;
-      color: #eedbc8;
-      border: 2px solid #8b7355;
-      width: 42px;
-      height: 42px;
-      border-radius: 24px;
-      font-size: 15px;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      background: radial-gradient(circle at 30% 30%, #5e4a38, #2a1c10);
-      box-shadow: 0 2px 6px rgba(0,0,0,0.5);
-    }
-    .sprint-active {
-      background: #5a3a20 !important;
-      border-color: #cc9944 !important;
-    }
-    .restart-btn {
-      position: absolute;
-      top: 4px;
-      right: 10px;
-      background: #2d1f14;
-      color: #dac29c;
-      border: 1.5px solid #6b5a4a;
-      padding: 3px 10px;
-      border-radius: 10px;
-      font-weight: bold;
-      cursor: pointer;
-      font-size: 10px;
-      z-index: 11;
-    }
-    .heartbeat {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      pointer-events: none;
-      z-index: 5;
-      border: 2px solid transparent;
-      border-radius: 16px;
-      transition: border-color 0.2s;
-    }
+    * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; user-select:none; }
+    body { background:#0a0c0f; display:flex; justify-content:center; align-items:center; min-height:100vh; font-family:'Courier New',monospace; touch-action:manipulation; overflow:hidden; padding:5px; }
+    .game-container { position:relative; box-shadow:0 0 45px rgba(0,0,0,0.9); border:3px solid #3a2e22; border-radius:16px; overflow:hidden; max-width:100%; width:100%; aspect-ratio:4/3; background:#0f0a07; }
+    canvas { display:block; width:100%; height:100%; background:#0a0806; }
+    .top-hud { position:absolute; top:4px; left:6px; right:6px; display:flex; justify-content:space-between; color:#f0e3ce; text-shadow:1px 1px 0 #000; font-weight:bold; font-size:10px; pointer-events:none; background:rgba(10,5,2,0.7); padding:3px 8px; border-radius:12px; border:1px solid #5e4a38; z-index:10; }
+    .stamina-bar { position:absolute; top:28px; left:10px; width:60px; height:4px; background:#333; border-radius:2px; z-index:10; display:none; }
+    .stamina-fill { height:100%; background:#88cc44; border-radius:2px; transition:width 0.2s; }
+    .battery-bar { position:absolute; top:34px; left:10px; width:60px; height:4px; background:#333; border-radius:2px; z-index:10; display:none; }
+    .battery-fill { height:100%; background:#44aacc; border-radius:2px; transition:width 0.2s; }
+    .message-area { position:absolute; top:50px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.85); color:#ffeedd; padding:2px 12px; border-radius:12px; font-weight:bold; font-size:10px; white-space:nowrap; border:1px solid #7b6852; pointer-events:none; z-index:10; }
+    .intro-overlay { position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); display:flex; flex-direction:column; align-items:center; justify-content:center; color:#d4c0a8; text-align:center; z-index:20; }
+    .intro-text { font-size:clamp(12px,3vw,16px); margin-bottom:15px; line-height:1.4; }
+    .difficulty-btns { display:flex; gap:15px; margin-bottom:10px; }
+    .diff-btn { padding:10px 25px; border-radius:20px; font-size:15px; font-weight:bold; cursor:pointer; border:2px solid #8b7355; color:#f5e7d3; }
+    .diff-normal { background:#3b5a2b; }
+    .diff-nightmare { background:#5a2b2b; }
+    .diff-desc { font-size:11px; color:#b7a797; margin-top:5px; max-width:250px; }
+    .bottom-left-group { position:absolute; bottom:15px; left:15px; display:flex; flex-direction:column; align-items:flex-start; gap:6px; z-index:10; }
+    .touch-hint { color:rgba(255,255,255,0.35); font-size:9px; pointer-events:none; }
+    .restart-btn { background:#2d1f14; color:#dac29c; border:1.5px solid #6b5a4a; padding:4px 10px; border-radius:10px; font-weight:bold; cursor:pointer; font-size:10px; }
+    .action-btns { position:absolute; bottom:15px; right:12px; display:flex; flex-direction:column; gap:5px; z-index:10; }
+    .act-btn { background:#3b2b1b; color:#eedbc8; border:2px solid #8b7355; width:38px; height:38px; border-radius:22px; font-size:14px; font-weight:bold; display:flex; align-items:center; justify-content:center; cursor:pointer; background:radial-gradient(circle at 30% 30%, #5e4a38, #2a1c10); box-shadow:0 2px 6px rgba(0,0,0,0.5); }
+    .sprint-active { background:#5a3a20!important; border-color:#cc9944!important; }
+    .heartbeat { position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:5; border:2px solid transparent; border-radius:16px; transition:border-color 0.2s; }
+    .code-panel { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); background:rgba(0,0,0,0.9); border:2px solid #8b7355; border-radius:15px; padding:15px; z-index:15; display:none; text-align:center; }
+    .code-display { color:#ffdd88; font-size:24px; letter-spacing:10px; margin:10px 0; }
+    .code-buttons { display:flex; gap:8px; justify-content:center; flex-wrap:wrap; }
+    .code-btn { background:#3b2b1b; color:#eedbc8; border:2px solid #8b7355; width:35px; height:35px; border-radius:20px; font-size:16px; cursor:pointer; }
+    .code-submit { background:#4a6a3a; color:white; border:2px solid #8b7355; padding:6px 15px; border-radius:15px; margin-top:8px; cursor:pointer; font-weight:bold; }
   </style>
 </head>
 <body>
@@ -189,381 +42,220 @@
     <canvas id="gameCanvas" width="800" height="600"></canvas>
     <div class="heartbeat" id="heartbeat"></div>
     <div class="intro-overlay" id="introOverlay">
-      <div class="intro-text">雨夜，你迷失在森林…<br>木屋中传来诡异声响。<br>寻找钥匙、收集日记、躲避鬼魂，逃离这里！</div>
-      <button class="start-btn" id="startButton">进入木屋</button>
+      <div class="intro-text">🌧️ 雨夜木屋 🌧️<br>选择你的命运</div>
+      <div class="difficulty-btns">
+        <button class="diff-btn diff-normal" id="btnNormal">普通</button>
+        <button class="diff-btn diff-nightmare" id="btnNightmare">噩梦</button>
+      </div>
+      <div class="diff-desc" id="diffDesc">选择难度开始游戏</div>
     </div>
     <div class="top-hud">
       <span id="floorDisplay">🏠 一楼</span>
-      <span id="inventoryDisplay">📦:❌ 🗝️:❌ 📖:0/3</span>
+      <span id="inventoryDisplay"></span>
     </div>
-    <div class="stamina-bar"><div class="stamina-fill" id="staminaFill" style="width:100%"></div></div>
+    <div class="stamina-bar" id="staminaBar"><div class="stamina-fill" id="staminaFill" style="width:100%"></div></div>
+    <div class="battery-bar" id="batteryBar"><div class="battery-fill" id="batteryFill" style="width:100%"></div></div>
     <div class="message-area" id="messageBox">寻找钥匙和日记碎片…</div>
-    <div class="touch-hint">👆左半屏滑动移动</div>
+    <div class="code-panel" id="codePanel">
+      <div style="color:#ffeedd;font-size:14px;">输入3位密码</div>
+      <div class="code-display" id="codeDisplay">___</div>
+      <div class="code-buttons" id="codeButtons"></div>
+      <button class="code-submit" id="codeSubmit">确认</button>
+      <button class="code-submit" id="codeCancel" style="background:#5a3a3a;">取消</button>
+    </div>
+    <div class="bottom-left-group">
+      <span class="touch-hint">👆左半屏移动</span>
+      <button class="restart-btn" id="restartButton">↺ 重新开始</button>
+    </div>
     <div class="action-btns">
       <div class="act-btn" id="btnStairs">↕️</div>
       <div class="act-btn" id="btnHide">🫣</div>
       <div class="act-btn" id="btnSprint">💨</div>
     </div>
-    <button class="restart-btn" id="restartButton">↺</button>
   </div>
 </div>
 
 <script>
 (function(){
-  const canvas = document.getElementById('gameCanvas');
-  const ctx = canvas.getContext('2d');
-  const W=800, H=600;
-  const container = document.getElementById('gameContainer');
+  const canvas=document.getElementById('gameCanvas');
+  const ctx=canvas.getContext('2d');
+  const W=800,H=600,container=document.getElementById('gameContainer');
 
-  let currentFloor=1, player={x:400,y:480,r:13,speed:2.5};
-  let hasCabinetKey=false, hasDoorKey=false, diaries=0;
-  let gameOver=false, win=false, deathTimer=0, gameStarted=false;
-  let stamina=100, maxStamina=100, sprinting=false;
-  let hiding=false, hideTimer=0, maxHideTime=180;
+  let difficulty='normal';
+  let currentFloor=1,player={x:400,y:480,r:13,speed:2.5};
+  let hasRealKey=false,hasCabinetKey=false,hasDoorKey=false,codes=0,diaries=0;
+  let battery=100,maxBattery=100;
+  let gameOver=false,win=false,deathTimer=0,gameStarted=false;
+  let stamina=100,sprinting=false;
+  let hiding=false,hideTimer=0,maxHideTime=150;
+  let inputCode='',showCodePanel=false;
+  
   let hideSpot={x:300,y:440,radius:25};
-  let ghosts=[
-    {x:650,y:160,speed:1.2,visible:true,flashCD:0,flashTimer:0},
-    {x:680,y:220,speed:1.4,visible:true,flashCD:0,flashTimer:0}
-  ];
-  const FLASH_DIST=150, FLASH_CD=80, FLASH_DUR=25;
-  let diarySpots=[
-    {x:150,y:200,radius:15,collected:false},
-    {x:650,y:180,radius:15,collected:false},
-    {x:400,y:450,radius:15,collected:false}
-  ];
+  let ghosts=[];
+  let codeSpots=[],keySpots=[],batterySpots=[],trapFloors=[],diarySpots=[];
   
-  // 触摸移动系统
-  let touchActive=false;
-  let touchStartX=0, touchStartY=0;
-  let touchCurrentX=0, touchCurrentY=0;
-  let moveX=0, moveY=0;
-  
+  let touchActive=false,touchStartX=0,touchStartY=0,moveX=0,moveY=0;
   const keys={w:false,a:false,s:false,d:false};
-  const stairs={x:300,y:270,w:200,h:70,floor1:{x:400,y:500},floor2:{x:400,y:480}};
-  const cabinetKeyPos={x:200,y:460,radius:18,collected:false};
-  const cabinetPos={x:580,y:200,radius:24,unlocked:false};
+  const stairsFloor1={x:300,y:270,w:200,h:70};
+  const stairsFloor2={x:300,y:190,w:200,h:70};
   const exitDoorPos={x:620,y:520,radius:28};
-  let lightningFlash=0;
+  let lightningFlash=0,doorUnlocked=false,correctCode='472';
 
   let audioCtx;
   function initAudio(){if(!audioCtx)try{audioCtx=new AudioContext()}catch(e){}}
-  function beep(freq,vol,dur){
-    if(!audioCtx)return;
-    try{
-      const o=audioCtx.createOscillator(),g=audioCtx.createGain();
-      o.type='square';o.frequency.value=freq;
-      g.gain.setValueAtTime(vol,audioCtx.currentTime);
-      g.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+dur);
-      o.connect(g).connect(audioCtx.destination);
-      o.start();o.stop(audioCtx.currentTime+dur);
-    }catch(e){}
+  function beep(f,v,d){if(!audioCtx)return;try{const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='square';o.frequency.value=f;g.gain.setValueAtTime(v,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+d);o.connect(g).connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+d);}catch(e){}}
+
+  function setupDifficulty(diff){
+    difficulty=diff;
+    if(diff==='normal'){
+      ghosts=[
+        {x:650,y:160,speed:1.6,visible:true,flashCD:180,flashTimer:0},
+        {x:200,y:200,speed:1.8,visible:true,flashCD:200,flashTimer:0}
+      ];
+      codeSpots=[];keySpots=[{x:200,y:460,radius:16,collected:false,floor:1,type:'cabinetKey'},{x:580,y:200,radius:16,collected:false,floor:2,type:'doorKey'}];
+      batterySpots=[];trapFloors=[];
+      diarySpots=[{x:150,y:200,radius:15,collected:false},{x:650,y:180,radius:15,collected:false},{x:400,y:450,radius:15,collected:false}];
+      hasCabinetKey=hasDoorKey=hasRealKey=false;codes=diaries=0;battery=100;doorUnlocked=true;
+      document.getElementById('staminaBar').style.display='none';document.getElementById('batteryBar').style.display='none';
+      document.getElementById('btnHide').style.display='none';document.getElementById('btnSprint').style.display='none';
+    }else{
+      ghosts=[
+        {x:200,y:150,speed:2.5,visible:true,flashCD:150,flashTimer:0,patrolDir:1,patrolAxis:'x',patrolMin:150,patrolMax:650},
+        {x:600,y:200,speed:2.5,visible:true,flashCD:170,flashTimer:0,patrolDir:1,patrolAxis:'y',patrolMin:120,patrolMax:250},
+        {x:400,y:180,speed:2.5,visible:true,flashCD:160,flashTimer:0,patrolDir:-1,patrolAxis:'x',patrolMin:100,patrolMax:700}
+      ];
+      codeSpots=[{x:120,y:200,radius:14,collected:false,num:4},{x:680,y:160,radius:14,collected:false,num:7},{x:400,y:400,radius:14,collected:false,num:2}];
+      keySpots=[{x:200,y:460,radius:16,collected:false,trap:true,floor:1,type:'trap'},{x:580,y:200,radius:16,collected:false,real:true,floor:2,type:'realKey'},{x:350,y:180,radius:16,collected:false,trap:true,floor:2,type:'trap'}];
+      batterySpots=[{x:500,y:450,radius:13,collected:false,floor:1},{x:150,y:160,radius:13,collected:false,floor:2}];
+      trapFloors=[{x:450,y:180,radius:30,triggered:false}];diarySpots=[];
+      hasCabinetKey=hasDoorKey=hasRealKey=false;codes=diaries=0;battery=100;doorUnlocked=false;
+      document.getElementById('staminaBar').style.display='block';document.getElementById('batteryBar').style.display='block';
+      document.getElementById('btnHide').style.display='flex';document.getElementById('btnSprint').style.display='flex';
+    }
+    currentFloor=1;player.x=400;player.y=480;gameOver=win=false;deathTimer=0;stamina=100;sprinting=false;hiding=false;showCodePanel=false;
+    document.getElementById('codePanel').style.display='none';updateUI();
   }
 
-  function restart(){
-    currentFloor=1;player.x=400;player.y=480;
-    hasCabinetKey=hasDoorKey=false;diaries=0;
-    gameOver=win=false;deathTimer=0;
-    stamina=maxStamina;sprinting=false;hiding=false;hideTimer=0;
-    cabinetKeyPos.collected=false;cabinetPos.unlocked=false;
-    diarySpots.forEach(d=>d.collected=false);
-    ghosts=[{x:650,y:160,speed:1.2,visible:true,flashCD:0,flashTimer:0},{x:680,y:220,speed:1.4,visible:true,flashCD:0,flashTimer:0}];
-    touchActive=false;moveX=0;moveY=0;
-    updateUI();
-  }
-
-  function startGame(){
-    document.getElementById('introOverlay').style.display='none';
-    gameStarted=true;initAudio();restart();
-  }
+  function restart(){setupDifficulty(difficulty);document.getElementById('messageBox').textContent=difficulty==='normal'?'寻找钥匙和日记碎片…':'寻找密码数字和真钥匙…';touchActive=false;moveX=0;moveY=0;}
+  function startGame(diff){document.getElementById('introOverlay').style.display='none';gameStarted=true;initAudio();setupDifficulty(diff);if(diff==='nightmare')buildCodeButtons();document.getElementById('messageBox').textContent=difficulty==='normal'?'寻找钥匙和日记碎片…':'寻找密码数字和真钥匙…';}
+  function buildCodeButtons(){const c=document.getElementById('codeButtons');c.innerHTML='';for(let i=0;i<=9;i++){const b=document.createElement('button');b.className='code-btn';b.textContent=i;b.addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();if(inputCode.length<3){inputCode+=i;updateCodeDisplay();}});c.appendChild(b);}}
+  function updateCodeDisplay(){let d='';for(let i=0;i<3;i++)d+=inputCode[i]||'_';document.getElementById('codeDisplay').textContent=d;}
 
   function updateUI(){
     document.getElementById('floorDisplay').textContent=currentFloor===1?'🏠 一楼':'🌑 二楼';
-    document.getElementById('inventoryDisplay').innerHTML=`📦:${hasCabinetKey?'✅':'❌'} 🗝️:${hasDoorKey?'✅':'❌'} 📖:${diaries}/3`;
-    document.getElementById('staminaFill').style.width=Math.max(0,stamina)+'%';
-    document.getElementById('staminaFill').style.background=stamina<30?'#cc4444':'#88cc44';
-    const sb=document.getElementById('btnSprint');
-    if(sprinting)sb.classList.add('sprint-active');
-    else sb.classList.remove('sprint-active');
-  }
-
-  function switchFloor(){
-    if(gameOver||win)return;
-    if(player.x>stairs.x&&player.x<stairs.x+stairs.w&&player.y>stairs.y&&player.y<stairs.y+stairs.h){
-      currentFloor=currentFloor===1?2:1;
-      player.x=currentFloor===1?stairs.floor1.x:stairs.floor2.x;
-      player.y=currentFloor===1?stairs.floor1.y:stairs.floor2.y;
-      document.getElementById('messageBox').textContent=currentFloor===2?'来到阴暗的二楼…':'回到一楼';
-      if(currentFloor===1)ghosts=[{x:650,y:160,speed:1.2,visible:true,flashCD:0,flashTimer:0},{x:680,y:220,speed:1.4,visible:true,flashCD:0,flashTimer:0}];
-      updateUI();
+    if(difficulty==='normal')document.getElementById('inventoryDisplay').innerHTML=`📦锁:${hasCabinetKey?'✅':'❌'} 🗝️:${hasDoorKey?'✅':'❌'} 📖:${diaries}/3`;
+    else{
+      document.getElementById('inventoryDisplay').innerHTML=`🔢:${codes}/3 🗝️:${hasRealKey?'✅':'❌'} 🔋:${Math.floor(battery)}%`;
+      document.getElementById('staminaFill').style.width=Math.max(0,stamina)+'%';document.getElementById('staminaFill').style.background=stamina<30?'#cc4444':'#88cc44';
+      document.getElementById('batteryFill').style.width=Math.max(0,battery)+'%';document.getElementById('batteryFill').style.background=battery<25?'#cc4444':'#44aacc';
     }
   }
 
-  function toggleHide(){
-    if(gameOver||win||currentFloor!==2)return;
-    if(Math.hypot(player.x-hideSpot.x,player.y-hideSpot.y)<hideSpot.radius+player.r){
-      hiding=!hiding;
-      hideTimer=hiding?maxHideTime:0;
-      document.getElementById('messageBox').textContent=hiding?'躲在衣柜里…':'从衣柜出来了';
-    }
-  }
+  function isInStairs(){return currentFloor===1?(player.x>stairsFloor1.x&&player.x<stairsFloor1.x+stairsFloor1.w&&player.y>stairsFloor1.y&&player.y<stairsFloor1.y+stairsFloor1.h):(player.x>stairsFloor2.x&&player.x<stairsFloor2.x+stairsFloor2.w&&player.y>stairsFloor2.y&&player.y<stairsFloor2.y+stairsFloor2.h);}
+  function switchFloor(){if(gameOver||win||showCodePanel)return;if(isInStairs()){currentFloor=currentFloor===1?2:1;player.x=400;player.y=currentFloor===1?500:480;document.getElementById('messageBox').textContent=currentFloor===2?'来到阴暗的二楼…':'回到一楼';updateUI();}}
+  function toggleHide(){if(difficulty==='normal'||gameOver||win||currentFloor!==2||showCodePanel)return;if(Math.hypot(player.x-hideSpot.x,player.y-hideSpot.y)<hideSpot.radius+player.r){hiding=!hiding;hideTimer=hiding?maxHideTime:0;document.getElementById('messageBox').textContent=hiding?'躲在衣柜里…':'从衣柜出来了';}}
 
   function collectItems(){
-    if(gameOver||win||hiding)return;
-    if(currentFloor===1&&!cabinetKeyPos.collected&&Math.hypot(player.x-cabinetKeyPos.x,player.y-cabinetKeyPos.y)<cabinetKeyPos.radius+player.r){
-      cabinetKeyPos.collected=hasCabinetKey=true;
-      document.getElementById('messageBox').textContent='获得柜子钥匙！';
-    }
-    if(currentFloor===2&&hasCabinetKey&&!cabinetPos.unlocked&&Math.hypot(player.x-cabinetPos.x,player.y-cabinetPos.y)<cabinetPos.radius+player.r){
-      cabinetPos.unlocked=hasDoorKey=true;
-      document.getElementById('messageBox').textContent='打开柜子！发现大门钥匙！';
-    }
-    diarySpots.forEach(d=>{
-      if(!d.collected&&currentFloor===2&&Math.hypot(player.x-d.x,player.y-d.y)<d.radius+player.r){
-        d.collected=true;diaries++;
-        document.getElementById('messageBox').textContent=`找到日记碎片！(${diaries}/3)`;
-        beep(600,0.1,0.15);
-      }
-    });
-    if(currentFloor===1&&hasDoorKey&&Math.hypot(player.x-exitDoorPos.x,player.y-exitDoorPos.y)<exitDoorPos.radius+player.r){
-      win=true;
-      document.getElementById('messageBox').textContent='你逃出了木屋！';
+    if(gameOver||win||hiding||showCodePanel)return;
+    if(difficulty==='normal'){
+      keySpots.forEach(k=>{if(!k.collected&&k.floor===currentFloor&&Math.hypot(player.x-k.x,player.y-k.y)<k.radius+player.r){k.collected=true;if(k.type==='cabinetKey'){hasCabinetKey=true;document.getElementById('messageBox').textContent='获得柜子钥匙！';}else if(k.type==='doorKey'&&hasCabinetKey){hasDoorKey=true;document.getElementById('messageBox').textContent='发现大门钥匙！';}beep(800,0.1,0.15);}});
+      diarySpots.forEach(d=>{if(!d.collected&&currentFloor===2&&Math.hypot(player.x-d.x,player.y-d.y)<d.radius+player.r){d.collected=true;diaries++;document.getElementById('messageBox').textContent=`找到日记碎片！(${diaries}/3)`;}});
+      if(currentFloor===1&&hasDoorKey&&Math.hypot(player.x-exitDoorPos.x,player.y-exitDoorPos.y)<exitDoorPos.radius+player.r){win=true;document.getElementById('messageBox').textContent='你逃出了木屋！';}
+    }else{
+      if(currentFloor===2)codeSpots.forEach(c=>{if(!c.collected&&Math.hypot(player.x-c.x,player.y-c.y)<c.radius+player.r){c.collected=true;codes++;document.getElementById('messageBox').textContent=`找到密码数字 ${c.num}！(${codes}/3)`;}});
+      keySpots.forEach(k=>{if(!k.collected&&k.floor===currentFloor&&Math.hypot(player.x-k.x,player.y-k.y)<k.radius+player.r){k.collected=true;if(k.trap){ghosts.forEach(g=>g.speed=2.8);document.getElementById('messageBox').textContent='假钥匙！鬼魂加速！';}else{hasRealKey=true;document.getElementById('messageBox').textContent='找到真钥匙！';}beep(k.trap?200:1000,0.2,0.3);}});
+      batterySpots.forEach(b=>{if(!b.collected&&b.floor===currentFloor&&Math.hypot(player.x-b.x,player.y-b.y)<b.radius+player.r){b.collected=true;battery=Math.min(maxBattery,battery+10);document.getElementById('messageBox').textContent='找到电池！+10%电量';}});
+      if(currentFloor===2)trapFloors.forEach(t=>{if(!t.triggered&&Math.hypot(player.x-t.x,player.y-t.y)<t.radius+player.r){t.triggered=true;ghosts.forEach(g=>g.flashCD=0);document.getElementById('messageBox').textContent='咔嚓！踩到陷阱！';}});
+      if(currentFloor===1&&codes>=3&&hasRealKey&&!doorUnlocked&&Math.hypot(player.x-exitDoorPos.x,player.y-exitDoorPos.y)<exitDoorPos.radius+25){if(!showCodePanel){showCodePanel=true;inputCode='';updateCodeDisplay();document.getElementById('codePanel').style.display='block';}}
+      if(currentFloor===1&&doorUnlocked&&Math.hypot(player.x-exitDoorPos.x,player.y-exitDoorPos.y)<exitDoorPos.radius+player.r){win=true;document.getElementById('messageBox').textContent='你逃出了木屋！';}
     }
     updateUI();
   }
 
   function updateGhosts(){
-    if(!gameStarted||gameOver||win||currentFloor!==2||hiding)return;
-    const heartbeat=document.getElementById('heartbeat');
-    let nearGhost=false;
+    if(!gameStarted||gameOver||win||hiding||showCodePanel)return;
+    const heartbeat=document.getElementById('heartbeat');let nearGhost=false;
     ghosts.forEach(g=>{
-      g.visible=true;
-      if(g.flashCD>0)g.flashCD--;
-      if(g.flashTimer>0){g.flashTimer--;if(g.flashTimer===0)g.visible=true;}
+      if(currentFloor!==2){g.visible=false;return;}g.visible=true;
+      if(g.flashCD>0)g.flashCD--;if(g.flashTimer>0){g.flashTimer--;if(g.flashTimer===0)g.visible=true;}
+      if(difficulty==='nightmare'&&g.patrolAxis&&g.visible&&g.flashTimer<=0){
+        if(g.patrolAxis==='x'){g.x+=g.speed*g.patrolDir*0.4;if(g.x>g.patrolMax||g.x<g.patrolMin)g.patrolDir*=-1;}
+        else{g.y+=g.speed*g.patrolDir*0.4;if(g.y>g.patrolMax||g.y<g.patrolMin)g.patrolDir*=-1;}
+      }
       const dx=player.x-g.x,dy=player.y-g.y,dist=Math.hypot(dx,dy);
-      if(g.visible&&g.flashTimer<=0){
-        g.x+=Math.cos(Math.atan2(dy,dx))*g.speed;
-        g.y+=Math.sin(Math.atan2(dy,dx))*g.speed;
+      if(g.visible&&g.flashTimer<=0&&dist>70){const ang=Math.atan2(dy,dx);const cs=difficulty==='nightmare'?g.speed*0.65:g.speed*0.5;g.x+=Math.cos(ang)*cs;g.y+=Math.sin(ang)*cs;}
+      // 瞬移修复：瞬移到玩家身后或侧面，绝不在前方
+      const FLASH_TRIGGER=100;
+      if(dist<FLASH_TRIGGER&&g.flashCD<=0&&g.flashTimer<=0&&g.visible){
+        g.visible=false;g.flashTimer=18;g.flashCD=difficulty==='normal'?200:160;
+        const angToPlayer=Math.atan2(dy,dx);
+        // 瞬移到玩家身后（反方向）或侧面，角度偏移至少90度
+        const offsetAng=angToPlayer+Math.PI+(Math.random()-0.5)*Math.PI*0.6;
+        const flashDist=110+Math.random()*50;
+        g.x=player.x+Math.cos(offsetAng)*flashDist;
+        g.y=player.y+Math.sin(offsetAng)*flashDist;
+        g.x=Math.min(Math.max(g.x,40),W-40);g.y=Math.min(Math.max(g.y,100),H-40);
+        if(Math.random()<0.3)beep(80,0.1,0.12);
       }
-      if(dist<FLASH_DIST&&g.flashCD<=0&&g.flashTimer<=0&&g.visible){
-        g.visible=false;g.flashTimer=FLASH_DUR;g.flashCD=FLASH_CD;
-        g.x=player.x+Math.cos(Math.atan2(dy,dx))*40;
-        g.y=player.y+Math.sin(Math.atan2(dy,dx))*40;
-        beep(80,0.15,0.2);
-      }
-      if(g.visible&&dist<player.r+18)triggerDeath();
-      if(dist<100)nearGhost=true;
+      if(g.visible&&dist<player.r+20)triggerDeath();if(dist<80)nearGhost=true;
     });
-    heartbeat.style.borderColor=nearGhost?'rgba(255,0,0,0.6)':'transparent';
-    if(nearGhost&&Math.random()<0.3)beep(40,0.04,0.08);
+    heartbeat.style.borderColor=nearGhost?'rgba(255,0,0,0.5)':'transparent';
+    if(nearGhost&&Math.random()<0.25)beep(40,0.02,0.05);
   }
 
-  function triggerDeath(){
-    gameOver=true;deathTimer=70;
-    document.getElementById('messageBox').textContent='被鬼抓住了...';
-  }
+  function triggerDeath(){gameOver=true;deathTimer=70;document.getElementById('messageBox').textContent='被鬼抓住了...';}
 
   function movePlayer(){
-    if(!gameStarted||gameOver||win||hiding)return;
+    if(!gameStarted||gameOver||win||hiding||showCodePanel)return;
     if(hiding){hideTimer--;if(hideTimer<=0){hiding=false;document.getElementById('messageBox').textContent='藏不住了！';}return;}
-    
-    if(sprinting&&(moveX!==0||moveY!==0||keys.w||keys.a||keys.s||keys.d)){
-      stamina-=1.2;
-      if(stamina<=0){sprinting=false;stamina=0;}
-    }else{stamina=Math.min(maxStamina,stamina+0.3);}
-    
-    let spd=sprinting?4.2:player.speed;
-    let dx=moveX, dy=moveY;
-    
-    // 键盘输入覆盖触摸
-    if(keys.w)dy=-1;
-    if(keys.s)dy=1;
-    if(keys.a)dx=-1;
-    if(keys.d)dx=1;
-    
-    if(dx!==0||dy!==0){
-      const l=Math.hypot(dx,dy);
-      player.x+=dx/l*spd;
-      player.y+=dy/l*spd;
-    }
-    player.x=Math.min(Math.max(player.x,25),W-25);
-    player.y=Math.min(Math.max(player.y,70),H-30);
-    updateUI();
+    if(difficulty==='nightmare'){battery-=0.04;if(battery<=0){battery=0;player.speed=1.3;}else player.speed=2.5;}
+    if(sprinting&&difficulty==='nightmare'&&(moveX||moveY||keys.w||keys.a||keys.s||keys.d)){stamina-=1.0;battery-=0.06;if(stamina<=0){sprinting=false;stamina=0;}}else{stamina=Math.min(100,stamina+0.3);}
+    let spd=(sprinting&&difficulty==='nightmare'&&battery>0)?4.0:player.speed;
+    let dx=moveX,dy=moveY;if(keys.w)dy=-1;if(keys.s)dy=1;if(keys.a)dx=-1;if(keys.d)dx=1;
+    if(dx||dy){const l=Math.hypot(dx,dy);player.x+=dx/l*spd;player.y+=dy/l*spd;}
+    player.x=Math.min(Math.max(player.x,25),W-25);player.y=Math.min(Math.max(player.y,70),H-30);updateUI();
   }
 
   function draw(){
-    ctx.clearRect(0,0,W,H);
-    const grad=ctx.createLinearGradient(0,0,0,H);
-    grad.addColorStop(0,'#0e0703');grad.addColorStop(0.8,'#1a1008');
-    ctx.fillStyle=grad;ctx.fillRect(0,0,W,H);
-    
+    ctx.clearRect(0,0,W,H);ctx.fillStyle='#0e0703';ctx.fillRect(0,0,W,H);
     if(currentFloor===1){
-      ctx.fillStyle='#1a1008';ctx.fillRect(30,340,740,230);
-      ctx.strokeStyle='#4a3a2a';ctx.strokeRect(30,340,740,230);
-      ctx.fillStyle='#332214';ctx.fillRect(stairs.x,stairs.y,stairs.w,stairs.h);
-      ctx.fillStyle='#c9b896';ctx.font='bold 15px Courier';ctx.fillText('⬆️ 二楼',stairs.x+60,stairs.y+40);
-      if(!cabinetKeyPos.collected){ctx.fillStyle='#c9a96b';ctx.beginPath();ctx.arc(cabinetKeyPos.x,cabinetKeyPos.y,11,0,Math.PI*2);ctx.fill();ctx.fillText('🔑',cabinetKeyPos.x-15,cabinetKeyPos.y+5);}
-      ctx.fillStyle='#2e1c10';ctx.fillRect(exitDoorPos.x-22,exitDoorPos.y-32,44,64);
-      ctx.fillText('🚪',exitDoorPos.x-15,exitDoorPos.y+8);
+      ctx.fillStyle='#1a1008';ctx.fillRect(30,340,740,230);ctx.strokeStyle='#4a3a2a';ctx.strokeRect(30,340,740,230);
+      ctx.fillStyle='#332214';ctx.fillRect(stairsFloor1.x,stairsFloor1.y,stairsFloor1.w,stairsFloor1.h);ctx.fillText('⬆️ 二楼',stairsFloor1.x+60,stairsFloor1.y+40);
+      if(difficulty==='normal')keySpots.forEach(k=>{if(!k.collected&&k.floor===1){ctx.fillStyle='#c9a96b';ctx.beginPath();ctx.arc(k.x,k.y,k.radius,0,Math.PI*2);ctx.fill();ctx.fillText('🔑',k.x-12,k.y+5);}});
+      else{keySpots.forEach(k=>{if(!k.collected&&k.floor===1){ctx.fillStyle=k.trap?'#ff6666':'#c9a96b';ctx.beginPath();ctx.arc(k.x,k.y,k.radius,0,Math.PI*2);ctx.fill();}});batterySpots.forEach(b=>{if(!b.collected&&b.floor===1){ctx.fillStyle='#44aacc';ctx.beginPath();ctx.arc(b.x,b.y,b.radius,0,Math.PI*2);ctx.fill();ctx.fillText('🔋',b.x-8,b.y+5);}});}
+      ctx.fillStyle=doorUnlocked?'#4a8a3a':'#2e1c10';ctx.fillRect(exitDoorPos.x-22,exitDoorPos.y-32,44,64);ctx.fillText(doorUnlocked?'🚪✅':'🚪🔒',exitDoorPos.x-18,exitDoorPos.y+8);
     }else{
-      ctx.fillStyle='#0f0a05';ctx.fillRect(30,60,740,220);
-      ctx.strokeStyle='#332214';ctx.strokeRect(30,60,740,220);
-      ctx.fillStyle='#332214';ctx.fillRect(stairs.x,stairs.y-80,stairs.w,stairs.h);
-      ctx.fillText('⬇️ 一楼',stairs.x+60,stairs.y-40);
-      ctx.fillStyle='#3d2818';ctx.fillRect(cabinetPos.x-22,cabinetPos.y-28,44,56);
-      ctx.fillText(cabinetPos.unlocked?'📭':'🗄️',cabinetPos.x-18,cabinetPos.y+5);
-      ctx.fillStyle='#4a3020';ctx.fillRect(hideSpot.x-18,hideSpot.y-20,36,40);
-      ctx.fillText('🪟',hideSpot.x-12,hideSpot.y+5);
-      diarySpots.forEach(d=>{if(!d.collected){ctx.fillStyle='#ffdd88';ctx.beginPath();ctx.arc(d.x,d.y,d.radius,0,Math.PI*2);ctx.fill();ctx.fillText('📄',d.x-8,d.y+5);}});
-      ghosts.forEach(g=>{if(g.visible){
-        ctx.save();ctx.translate(g.x,g.y);
-        const f=0.6+Math.sin(Date.now()*0.03)*0.2;
-        ctx.fillStyle=`rgba(155,185,205,${f})`;ctx.shadowColor='#992222';ctx.shadowBlur=25;
-        ctx.beginPath();ctx.ellipse(0,0,17,22,0,0,Math.PI*2);ctx.fill();
-        ctx.fillStyle='#000';ctx.beginPath();ctx.arc(-6,-7,5,0,Math.PI,true);ctx.fill();ctx.arc(6,-7,5,0,Math.PI,true);ctx.fill();
-        ctx.fillStyle='#f22';ctx.arc(-6,-9,2,0,Math.PI*2);ctx.fill();ctx.arc(6,-9,2,0,Math.PI*2);ctx.fill();
-        ctx.restore();
-      }});
-      ctx.save();ctx.fillStyle='#000';ctx.beginPath();ctx.rect(0,0,W,H);ctx.arc(player.x,player.y,100,0,Math.PI*2);ctx.fill('evenodd');ctx.restore();
+      ctx.fillStyle='#0f0a05';ctx.fillRect(30,60,740,220);ctx.strokeStyle='#332214';ctx.strokeRect(30,60,740,220);
+      ctx.fillStyle='#332214';ctx.fillRect(stairsFloor2.x,stairsFloor2.y,stairsFloor2.w,stairsFloor2.h);ctx.fillText('⬇️ 一楼',stairsFloor2.x+60,stairsFloor2.y+40);
+      if(difficulty==='normal'){keySpots.forEach(k=>{if(!k.collected&&k.floor===2){ctx.fillStyle='#c9a96b';ctx.beginPath();ctx.arc(k.x,k.y,k.radius,0,Math.PI*2);ctx.fill();ctx.fillText('🔑',k.x-12,k.y+5);}});diarySpots.forEach(d=>{if(!d.collected){ctx.fillStyle='#ffdd88';ctx.beginPath();ctx.arc(d.x,d.y,d.radius,0,Math.PI*2);ctx.fill();ctx.fillText('📄',d.x-8,d.y+5);}});}
+      else{codeSpots.forEach(c=>{if(!c.collected){ctx.fillStyle='#ffdd88';ctx.beginPath();ctx.arc(c.x,c.y,c.radius,0,Math.PI*2);ctx.fill();ctx.fillText(c.num,c.x-5,c.y+5);}});keySpots.forEach(k=>{if(!k.collected&&k.floor===2){ctx.fillStyle=k.trap?'#ff6666':'#c9a96b';ctx.beginPath();ctx.arc(k.x,k.y,k.radius,0,Math.PI*2);ctx.fill();}});batterySpots.forEach(b=>{if(!b.collected&&b.floor===2){ctx.fillStyle='#44aacc';ctx.beginPath();ctx.arc(b.x,b.y,b.radius,0,Math.PI*2);ctx.fill();ctx.fillText('🔋',b.x-8,b.y+5);}});trapFloors.forEach(t=>{if(!t.triggered){ctx.fillStyle='rgba(100,50,20,0.4)';ctx.beginPath();ctx.arc(t.x,t.y,t.radius,0,Math.PI*2);ctx.fill();}});ctx.fillStyle='#4a3020';ctx.fillRect(hideSpot.x-18,hideSpot.y-20,36,40);ctx.fillText('🪟',hideSpot.x-12,hideSpot.y+5);}
+      ghosts.forEach(g=>{if(g.visible){ctx.save();ctx.translate(g.x,g.y);ctx.fillStyle=`rgba(155,185,205,${0.5+Math.sin(Date.now()*0.03)*0.2})`;ctx.shadowColor='#992222';ctx.shadowBlur=22;ctx.beginPath();ctx.ellipse(0,0,16,20,0,0,Math.PI*2);ctx.fill();ctx.fillStyle='#000';ctx.beginPath();ctx.arc(-5,-6,4.5,0,Math.PI,true);ctx.fill();ctx.arc(5,-6,4.5,0,Math.PI,true);ctx.fill();ctx.fillStyle='#f22';ctx.arc(-5,-8,1.8,0,Math.PI*2);ctx.fill();ctx.arc(5,-8,1.8,0,Math.PI*2);ctx.fill();ctx.restore();}});
+      const vr=difficulty==='normal'?140:(battery>0?85:35);ctx.save();ctx.fillStyle='#000';ctx.beginPath();ctx.rect(0,0,W,H);ctx.arc(player.x,player.y,vr,0,Math.PI*2);ctx.fill('evenodd');ctx.restore();
     }
-    
-    if(!gameOver||deathTimer<=0){
-      ctx.save();ctx.translate(player.x,player.y);
-      ctx.fillStyle='#f5e7d3';ctx.shadowColor='#fc8';ctx.shadowBlur=12;
-      ctx.beginPath();ctx.arc(0,0,player.r,0,Math.PI*2);ctx.fill();
-      ctx.fillText('🧑',-11,6);ctx.restore();
-    }
+    if(!gameOver||deathTimer<=0){ctx.save();ctx.translate(player.x,player.y);ctx.fillStyle='#f5e7d3';ctx.shadowColor='#fc8';ctx.shadowBlur=10;ctx.beginPath();ctx.arc(0,0,player.r,0,Math.PI*2);ctx.fill();ctx.fillText('🧑',-10,5);ctx.restore();}
     if(gameOver&&deathTimer>0){drawJumpscare();deathTimer--;}
     if(win){ctx.fillStyle='rgba(0,0,0,0.7)';ctx.fillRect(0,0,W,H);ctx.fillStyle='#f0e6c5';ctx.font='34px Courier';ctx.fillText('逃脱成功',W/2,H/2);}
-    
-    ctx.strokeStyle='rgba(150,180,210,0.4)';ctx.lineWidth=1;
-    for(let i=0;i<90;i++){let x=(i*22+Date.now()*0.3)%W,y=(i*14)%H;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x-2,y+10);ctx.stroke();}
-    if(lightningFlash>0){ctx.fillStyle=`rgba(200,220,255,${lightningFlash*0.3})`;ctx.fillRect(0,0,W,H);lightningFlash-=0.05;}
-    if(Math.random()<0.002)lightningFlash=1;
+    ctx.strokeStyle='rgba(150,180,210,0.35)';ctx.lineWidth=1;for(let i=0;i<80;i++){let x=(i*24+Date.now()*0.3)%W,y=(i*15)%H;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x-2,y+9);ctx.stroke();}
+    if(lightningFlash>0){ctx.fillStyle=`rgba(200,220,255,${lightningFlash*0.3})`;ctx.fillRect(0,0,W,H);lightningFlash-=0.05;}if(Math.random()<0.003)lightningFlash=1;
   }
 
-  function drawJumpscare(){
-    ctx.fillStyle='#000';ctx.fillRect(0,0,W,H);
-    ctx.save();ctx.translate(W/2,H/2-15);
-    ctx.fillStyle='#aac0d8';ctx.shadowColor='#c00';ctx.shadowBlur=60;
-    ctx.beginPath();ctx.ellipse(0,0,70,90,0,0,Math.PI*2);ctx.fill();
-    ctx.fillStyle='#000';ctx.beginPath();ctx.arc(-25,-22,12,0,Math.PI,true);ctx.fill();ctx.arc(25,-22,12,0,Math.PI,true);ctx.fill();
-    ctx.fillStyle='#f00';ctx.arc(-25,-25,4,0,Math.PI*2);ctx.fill();ctx.arc(25,-25,4,0,Math.PI*2);ctx.fill();
-    ctx.restore();
-  }
+  function drawJumpscare(){ctx.fillStyle='#000';ctx.fillRect(0,0,W,H);ctx.save();ctx.translate(W/2,H/2-15);ctx.fillStyle='#aac0d8';ctx.shadowColor='#c00';ctx.shadowBlur=55;ctx.beginPath();ctx.ellipse(0,0,65,85,0,0,Math.PI*2);ctx.fill();ctx.fillStyle='#000';ctx.beginPath();ctx.arc(-23,-20,11,0,Math.PI,true);ctx.fill();ctx.arc(23,-20,11,0,Math.PI,true);ctx.fill();ctx.fillStyle='#f00';ctx.arc(-23,-23,3.5,0,Math.PI*2);ctx.fill();ctx.arc(23,-23,3.5,0,Math.PI*2);ctx.fill();ctx.restore();}
 
-  // ===== 全屏触摸移动系统 =====
-  container.addEventListener('touchstart', e => {
-    if(!gameStarted || gameOver || win) return;
-    // 只响应左半屏幕的触摸用于移动
-    const rect = container.getBoundingClientRect();
-    const tx = e.touches[0].clientX;
-    if(tx < rect.left + rect.width/2) {
-      e.preventDefault();
-      touchActive = true;
-      touchStartX = e.touches[0].clientX;
-      touchStartY = e.touches[0].clientY;
-      touchCurrentX = touchStartX;
-      touchCurrentY = touchStartY;
-      moveX = 0; moveY = 0;
-      initAudio();
-    }
-  }, {passive: false});
+  document.getElementById('btnNormal').addEventListener('click',()=>startGame('normal'));
+  document.getElementById('btnNightmare').addEventListener('click',()=>startGame('nightmare'));
+  document.getElementById('codeSubmit').addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();if(inputCode===correctCode){doorUnlocked=true;showCodePanel=false;document.getElementById('codePanel').style.display='none';document.getElementById('messageBox').textContent='密码正确！';}else{document.getElementById('messageBox').textContent='密码错误！';inputCode='';updateCodeDisplay();}});
+  document.getElementById('codeCancel').addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();showCodePanel=false;inputCode='';document.getElementById('codePanel').style.display='none';updateCodeDisplay();});
 
-  container.addEventListener('touchmove', e => {
-    if(!touchActive) return;
-    e.preventDefault();
-    touchCurrentX = e.touches[0].clientX;
-    touchCurrentY = e.touches[0].clientY;
-    
-    const dx = touchCurrentX - touchStartX;
-    const dy = touchCurrentY - touchStartY;
-    const dist = Math.hypot(dx, dy);
-    
-    if(dist > 5) { // 5px死区
-      moveX = dx / 30; // 灵敏度
-      moveY = dy / 30;
-      // 限制最大值
-      const mag = Math.hypot(moveX, moveY);
-      if(mag > 1) {
-        moveX /= mag;
-        moveY /= mag;
-      }
-    } else {
-      moveX = 0;
-      moveY = 0;
-    }
-  }, {passive: false});
-
-  container.addEventListener('touchend', e => {
-    if(touchActive) {
-      touchActive = false;
-      moveX = 0;
-      moveY = 0;
-    }
-  });
-
-  container.addEventListener('touchcancel', () => {
-    touchActive = false;
-    moveX = 0;
-    moveY = 0;
-  });
-
-  // 按钮事件
-  document.getElementById('btnStairs').addEventListener('pointerdown', e => {
-    e.preventDefault(); e.stopPropagation();
-    initAudio(); switchFloor();
-  });
-  document.getElementById('btnHide').addEventListener('pointerdown', e => {
-    e.preventDefault(); e.stopPropagation();
-    initAudio(); toggleHide();
-  });
-  
-  const sprintBtn = document.getElementById('btnSprint');
-  sprintBtn.addEventListener('pointerdown', e => {
-    e.preventDefault(); e.stopPropagation();
-    if(stamina > 0) sprinting = true;
-    updateUI();
-  });
-  sprintBtn.addEventListener('pointerup', e => {
-    e.preventDefault(); sprinting = false; updateUI();
-  });
-  sprintBtn.addEventListener('pointerleave', () => {
-    sprinting = false; updateUI();
-  });
-  
-  document.getElementById('restartButton').addEventListener('click', e => {
-    e.stopPropagation(); restart();
-  });
-  document.getElementById('startButton').addEventListener('click', startGame);
-
-  // 键盘
-  window.addEventListener('keydown', e => {
-    const k = e.key.toLowerCase();
-    if(k==='w') keys.w=true;
-    if(k==='s') keys.s=true;
-    if(k==='a') keys.a=true;
-    if(k==='d') keys.d=true;
-    if(k==='shift'){ e.preventDefault(); if(stamina>0) sprinting=true; }
-    initAudio();
-  });
-  window.addEventListener('keyup', e => {
-    const k = e.key.toLowerCase();
-    if(k==='w') keys.w=false;
-    if(k==='s') keys.s=false;
-    if(k==='a') keys.a=false;
-    if(k==='d') keys.d=false;
-    if(k==='shift') sprinting=false;
-  });
-
-  function loop(){
-    if(gameStarted && !gameOver && !win) {
-      movePlayer();
-      collectItems();
-      updateGhosts();
-    }
-    draw();
-    requestAnimationFrame(loop);
-  }
+  container.addEventListener('touchstart',e=>{if(!gameStarted||gameOver||win||showCodePanel)return;const r=container.getBoundingClientRect();if(e.touches[0].clientX<r.left+r.width/2){e.preventDefault();touchActive=true;touchStartX=e.touches[0].clientX;touchStartY=e.touches[0].clientY;moveX=0;moveY=0;initAudio();}},{passive:false});
+  container.addEventListener('touchmove',e=>{if(!touchActive)return;e.preventDefault();const dx=e.touches[0].clientX-touchStartX,dy=e.touches[0].clientY-touchStartY,d=Math.hypot(dx,dy);if(d>5){moveX=dx/30;moveY=dy/30;const m=Math.hypot(moveX,moveY);if(m>1){moveX/=m;moveY/=m;}}},{passive:false});
+  container.addEventListener('touchend',()=>{touchActive=false;moveX=0;moveY=0;});
+  document.getElementById('btnStairs').addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();initAudio();switchFloor();});
+  document.getElementById('btnHide').addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();initAudio();toggleHide();});
+  const sb=document.getElementById('btnSprint');sb.addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();if(stamina>0)sprinting=true;updateUI();});sb.addEventListener('pointerup',e=>{e.preventDefault();sprinting=false;updateUI();});
+  document.getElementById('restartButton').addEventListener('click',e=>{e.stopPropagation();restart();});
+  window.addEventListener('keydown',e=>{if(showCodePanel){if(e.key>='0'&&e.key<='9'&&inputCode.length<3){inputCode+=e.key;updateCodeDisplay();}if(e.key==='Enter')document.getElementById('codeSubmit').click();if(e.key==='Escape')document.getElementById('codeCancel').click();return;}const k=e.key.toLowerCase();if(k==='w')keys.w=true;if(k==='s')keys.s=true;if(k==='a')keys.a=true;if(k==='d')keys.d=true;if(k==='shift'){e.preventDefault();if(stamina>0)sprinting=true;}initAudio();});
+  window.addEventListener('keyup',e=>{const k=e.key.toLowerCase();if(k==='w')keys.w=false;if(k==='s')keys.s=false;if(k==='a')keys.a=false;if(k==='d')keys.d=false;if(k==='shift')sprinting=false;});
+  function loop(){if(gameStarted&&!gameOver&&!win){movePlayer();collectItems();updateGhosts();}draw();requestAnimationFrame(loop);}
   loop();
 })();
 </script>

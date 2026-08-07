@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>雨夜木屋 · 三难度v1.3</title>
+  <title>雨夜木屋 · 三难度</title>
   <style>
     * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; user-select:none; }
     body { background:#0a0c0f; display:flex; justify-content:center; align-items:center; min-height:100vh; font-family:'Courier New',monospace; touch-action:manipulation; overflow:hidden; padding:5px; }
@@ -148,13 +148,12 @@
       document.getElementById('staminaBar').style.display='block';document.getElementById('batteryBar').style.display='block';
       document.getElementById('btnHide').style.display='flex';document.getElementById('btnSprint').style.display='flex';
     }else{
-      // 地狱难度：二楼3只鬼 + 三楼1只快速鬼
       const rc=generateRandomCode();correctCode=rc.code;codeDigits=rc.digits;
       ghosts=[
         {x:200,y:150,speed:3.0,visible:true,flashCD:120,flashTimer:0,patrolDir:1,patrolAxis:'x',patrolMin:150,patrolMax:650,floor:2},
         {x:600,y:200,speed:3.2,visible:true,flashCD:130,flashTimer:0,patrolDir:1,patrolAxis:'y',patrolMin:120,patrolMax:250,floor:2},
         {x:400,y:180,speed:3.5,visible:true,flashCD:110,flashTimer:0,patrolDir:-1,patrolAxis:'x',patrolMin:100,patrolMax:700,floor:2},
-        {x:400,y:140,speed:5.5,visible:true,flashCD:40,flashTimer:0,patrolDir:1,patrolAxis:'x',patrolMin:100,patrolMax:700,floor:3}
+        {x:400,y:140,speed:6.0,visible:true,flashCD:30,flashTimer:0,floor:3,isBoss:true}
       ];
       codeSpots=[{x:100,y:180,radius:14,collected:false,num:codeDigits[0]},{x:700,y:140,radius:14,collected:false,num:codeDigits[1]},{x:400,y:380,radius:14,collected:false,num:codeDigits[2]}];
       keySpots=[{x:200,y:460,radius:16,collected:false,trap:true,floor:1,type:'trap'},{x:600,y:460,radius:16,collected:false,trap:true,floor:1,type:'trap'},{x:580,y:200,radius:16,collected:false,real:true,floor:2,type:'realKey'},{x:300,y:160,radius:16,collected:false,trap:true,floor:2,type:'trap'},{x:500,y:220,radius:16,collected:false,trap:true,floor:2,type:'trap'}];
@@ -172,37 +171,15 @@
   }
 
   function restart(){setupDifficulty(difficulty);document.getElementById('messageBox').textContent=difficulty==='normal'?'寻找钥匙和日记碎片…':difficulty==='nightmare'?'寻找密码数字和真钥匙…':'去三楼找锤子破坏门板！';touchActive=false;moveX=0;moveY=0;}
-  
-  function startGame(diff){
-    document.getElementById('introOverlay').style.display='none';
-    gameStarted=true;initAudio();
-    setupDifficulty(diff);
-    if(diff==='nightmare'||diff==='hell')buildCodeButtons();
-    document.getElementById('messageBox').textContent=difficulty==='normal'?'寻找钥匙和日记碎片…':difficulty==='nightmare'?'寻找密码数字和真钥匙…':'去三楼找锤子破坏门板！';
-  }
-
-  function buildCodeButtons(){
-    const c=document.getElementById('codeButtons');c.innerHTML='';
-    for(let i=0;i<=9;i++){
-      const b=document.createElement('button');b.className='code-btn';b.textContent=i;
-      b.addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();if(inputCode.length<3){inputCode+=i;updateCodeDisplay();}});
-      c.appendChild(b);
-    }
-  }
+  function startGame(diff){document.getElementById('introOverlay').style.display='none';gameStarted=true;initAudio();setupDifficulty(diff);if(diff==='nightmare'||diff==='hell')buildCodeButtons();document.getElementById('messageBox').textContent=difficulty==='normal'?'寻找钥匙和日记碎片…':difficulty==='nightmare'?'寻找密码数字和真钥匙…':'去三楼找锤子破坏门板！';}
+  function buildCodeButtons(){const c=document.getElementById('codeButtons');c.innerHTML='';for(let i=0;i<=9;i++){const b=document.createElement('button');b.className='code-btn';b.textContent=i;b.addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();if(inputCode.length<3){inputCode+=i;updateCodeDisplay();}});c.appendChild(b);}}
   function updateCodeDisplay(){let d='';for(let i=0;i<3;i++)d+=inputCode[i]||'_';document.getElementById('codeDisplay').textContent=d;}
 
   function updateUI(){
     let ft='🏠 一楼';if(currentFloor===2)ft='🌑 二楼';else if(currentFloor===3)ft='💀 三楼';
     document.getElementById('floorDisplay').textContent=ft;
     if(difficulty==='normal')document.getElementById('inventoryDisplay').innerHTML=`📦锁:${hasCabinetKey?'✅':'❌'} 🗝️:${hasDoorKey?'✅':'❌'} 📖:${diaries}/3`;
-    else{
-      let inv=`🔢:${codes}/3 🗝️:${hasRealKey?'✅':'❌'} 🔋:${Math.floor(battery)}%`;
-      if(difficulty==='hell')inv=`🔨:${hasHammer?'✅':'❌'} `+inv+` 🧠:${Math.floor(sanity)}%`;
-      document.getElementById('inventoryDisplay').innerHTML=inv;
-      document.getElementById('staminaFill').style.width=Math.max(0,stamina)+'%';
-      document.getElementById('batteryFill').style.width=Math.max(0,battery)+'%';
-      if(difficulty==='hell'){document.getElementById('sanityFill').style.width=Math.max(0,sanity)+'%';}
-    }
+    else{let inv=`🔢:${codes}/3 🗝️:${hasRealKey?'✅':'❌'} 🔋:${Math.floor(battery)}%`;if(difficulty==='hell')inv=`🔨:${hasHammer?'✅':'❌'} `+inv+` 🧠:${Math.floor(sanity)}%`;document.getElementById('inventoryDisplay').innerHTML=inv;document.getElementById('staminaFill').style.width=Math.max(0,stamina)+'%';document.getElementById('batteryFill').style.width=Math.max(0,battery)+'%';if(difficulty==='hell')document.getElementById('sanityFill').style.width=Math.max(0,sanity)+'%';}
   }
 
   function isInStairs(){
@@ -215,9 +192,8 @@
   function switchFloor(){
     if(gameOver||win||showCodePanel)return;
     if(isInStairs()){
-      if(difficulty==='hell'){
-        if(currentFloor===1)currentFloor=2;else if(currentFloor===2)currentFloor=3;else currentFloor=1;
-      }else{currentFloor=currentFloor===1?2:1;}
+      if(difficulty==='hell'){if(currentFloor===1)currentFloor=2;else if(currentFloor===2)currentFloor=3;else currentFloor=1;}
+      else{currentFloor=currentFloor===1?2:1;}
       player.x=400;player.y=currentFloor===1?500:currentFloor===2?480:460;
       document.getElementById('messageBox').textContent=currentFloor===1?'回到一楼':currentFloor===2?'来到阴暗的二楼…':'来到恐怖的三楼…';
       updateUI();
@@ -261,41 +237,59 @@
   function updateGhosts(){
     if(!gameStarted||gameOver||win||hiding||showCodePanel)return;
     const heartbeat=document.getElementById('heartbeat');let nearGhost=false;
-    
-    // 地狱难度理智值消耗降低
-    if(difficulty==='hell'&&currentFloor===2){
-      sanity-=0.02;
-      if(sanity<=0){sanity=0;hallucinationTimer++;}
-      else hallucinationTimer=0;
-    }
+    if(difficulty==='hell'&&currentFloor===2){sanity-=0.02;if(sanity<=0){sanity=0;hallucinationTimer++;}else hallucinationTimer=0;}
     
     ghosts.forEach(g=>{
       if(currentFloor!==g.floor){g.visible=false;return;}
       g.visible=true;
       if(g.flashCD>0)g.flashCD--;if(g.flashTimer>0){g.flashTimer--;if(g.flashTimer===0)g.visible=true;}
-      if(g.patrolAxis&&g.visible&&g.flashTimer<=0){
-        const ps=g.speed*(difficulty==='hell'&&g.floor===3?0.2:0.3);
-        if(g.patrolAxis==='x'){g.x+=ps*g.patrolDir;if(g.x>g.patrolMax||g.x<g.patrolMin)g.patrolDir*=-1;}
-        else{g.y+=ps*g.patrolDir;if(g.y>g.patrolMax||g.y<g.patrolMin)g.patrolDir*=-1;}
-      }
+      
       const dx=player.x-g.x,dy=player.y-g.y,dist=Math.hypot(dx,dy);
-      if(g.visible&&g.flashTimer<=0&&dist>50){
-        const ang=Math.atan2(dy,dx);
-        const cs=g.speed*(difficulty==='hell'&&g.floor===3?0.8:0.6);
-        g.x+=Math.cos(ang)*cs;g.y+=Math.sin(ang)*cs;
+      
+      if(g.isBoss){
+        // 三楼Boss鬼：极速追击，几乎不巡逻
+        if(g.visible&&g.flashTimer<=0&&dist>15){
+          const ang=Math.atan2(dy,dx);
+          g.x+=Math.cos(ang)*g.speed*0.9;
+          g.y+=Math.sin(ang)*g.speed*0.9;
+        }
+        // Boss瞬移更频繁，距离更近
+        if(dist<180&&g.flashCD<=0&&g.flashTimer<=0&&g.visible){
+          g.visible=false;g.flashTimer=10;g.flashCD=25;
+          const atp=Math.atan2(dy,dx);
+          const oa=atp+(Math.random()-0.5)*Math.PI*0.3;
+          const fd=50+Math.random()*30;
+          g.x=player.x+Math.cos(oa)*fd;g.y=player.y+Math.sin(oa)*fd;
+          g.x=Math.min(Math.max(g.x,40),W-40);g.y=Math.min(Math.max(g.y,100),H-40);
+          beep(60,0.15,0.15);
+        }
+        if(g.visible&&dist<player.r+25)triggerDeath();
+        if(dist<100)nearGhost=true;
+      }else{
+        // 普通鬼魂逻辑
+        if(g.patrolAxis&&g.visible&&g.flashTimer<=0){
+          const ps=g.speed*0.3;
+          if(g.patrolAxis==='x'){g.x+=ps*g.patrolDir;if(g.x>g.patrolMax||g.x<g.patrolMin)g.patrolDir*=-1;}
+          else{g.y+=ps*g.patrolDir;if(g.y>g.patrolMax||g.y<g.patrolMin)g.patrolDir*=-1;}
+        }
+        if(g.visible&&g.flashTimer<=0&&dist>50){
+          const ang=Math.atan2(dy,dx);
+          g.x+=Math.cos(ang)*g.speed*0.6;
+          g.y+=Math.sin(ang)*g.speed*0.6;
+        }
+        const FT=difficulty==='hell'?120:100;
+        if(dist<FT&&g.flashCD<=0&&g.flashTimer<=0&&g.visible){
+          g.visible=false;g.flashTimer=15;g.flashCD=difficulty==='hell'?80:160;
+          const atp=Math.atan2(dy,dx);
+          const oa=atp+Math.PI+(Math.random()-0.5)*Math.PI*0.5;
+          const fd=130+Math.random()*60;
+          g.x=player.x+Math.cos(oa)*fd;g.y=player.y+Math.sin(oa)*fd;
+          g.x=Math.min(Math.max(g.x,40),W-40);g.y=Math.min(Math.max(g.y,100),H-40);
+          if(Math.random()<0.3)beep(80,0.08,0.1);
+        }
+        if(g.visible&&dist<player.r+22)triggerDeath();
+        if(dist<90)nearGhost=true;
       }
-      const FLASH_TRIGGER=difficulty==='hell'?(g.floor===3?150:120):100;
-      if(dist<FLASH_TRIGGER&&g.flashCD<=0&&g.flashTimer<=0&&g.visible){
-        g.visible=false;g.flashTimer=15;g.flashCD=difficulty==='hell'?(g.floor===3?50:80):160;
-        const atp=Math.atan2(dy,dx);
-        const oa=atp+Math.PI+(Math.random()-0.5)*Math.PI*0.5;
-        const fd=130+Math.random()*60;
-        g.x=player.x+Math.cos(oa)*fd;g.y=player.y+Math.sin(oa)*fd;
-        g.x=Math.min(Math.max(g.x,40),W-40);g.y=Math.min(Math.max(g.y,100),H-40);
-        if(Math.random()<0.3)beep(80,0.08,0.1);
-      }
-      if(g.visible&&dist<player.r+22)triggerDeath();
-      if(dist<90)nearGhost=true;
     });
     
     heartbeat.style.borderColor=nearGhost?'rgba(255,0,0,0.5)':'transparent';
@@ -342,10 +336,8 @@
       if(hammerSpot&&!hammerSpot.collected){ctx.fillStyle='#ffaa00';ctx.beginPath();ctx.arc(hammerSpot.x,hammerSpot.y,hammerSpot.radius,0,Math.PI*2);ctx.fill();ctx.fillText('🔨',hammerSpot.x-10,hammerSpot.y+6);}
     }
     
-    // 绘制对应楼层的鬼魂
-    ghosts.forEach(g=>{if(g.visible&&g.floor===currentFloor)drawGhost(g,difficulty==='hell'&&g.floor===3);});
+    ghosts.forEach(g=>{if(g.visible&&g.floor===currentFloor)drawGhost(g,g.isBoss);});
     
-    // 黑暗视野
     if(currentFloor===2||currentFloor===3){
       const vr=difficulty==='normal'?140:(difficulty==='hell'&&sanity<30?50:(battery>0?85:35));
       ctx.save();ctx.fillStyle='#000';ctx.beginPath();ctx.rect(0,0,W,H);ctx.arc(player.x,player.y,vr,0,Math.PI*2);ctx.fill('evenodd');ctx.restore();
@@ -358,23 +350,25 @@
     if(lightningFlash>0){ctx.fillStyle=`rgba(200,220,255,${lightningFlash*0.3})`;ctx.fillRect(0,0,W,H);lightningFlash-=0.05;}if(Math.random()<0.003)lightningFlash=1;
   }
 
-  function drawGhost(g,isFast){
+  function drawGhost(g,isBoss){
     ctx.save();ctx.translate(g.x,g.y);
-    if(isFast){
-      ctx.fillStyle=`rgba(255,50,50,${0.7+Math.sin(Date.now()*0.06)*0.2})`;ctx.shadowColor='#ff0000';ctx.shadowBlur=35;
+    if(isBoss){
+      ctx.fillStyle=`rgba(255,30,30,${0.8+Math.sin(Date.now()*0.08)*0.2})`;ctx.shadowColor='#ff0000';ctx.shadowBlur=40;
+      ctx.beginPath();ctx.ellipse(0,0,20,26,0,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle='#000';ctx.beginPath();ctx.arc(-7,-8,6,0,Math.PI,true);ctx.fill();ctx.arc(7,-8,6,0,Math.PI,true);ctx.fill();
+      ctx.fillStyle='#ff0';ctx.arc(-7,-10,2.5,0,Math.PI*2);ctx.fill();ctx.arc(7,-10,2.5,0,Math.PI*2);ctx.fill();
+      ctx.strokeStyle='#800';ctx.lineWidth=4;ctx.beginPath();ctx.arc(0,10,9,0.1,Math.PI-0.1);ctx.stroke();
     }else{
       ctx.fillStyle=`rgba(155,185,205,${0.5+Math.sin(Date.now()*0.03)*0.2})`;ctx.shadowColor='#992222';ctx.shadowBlur=22;
+      ctx.beginPath();ctx.ellipse(0,0,16,20,0,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle='#000';ctx.beginPath();ctx.arc(-5,-6,4.5,0,Math.PI,true);ctx.fill();ctx.arc(5,-6,4.5,0,Math.PI,true);ctx.fill();
+      ctx.fillStyle='#f22';ctx.arc(-5,-8,1.8,0,Math.PI*2);ctx.fill();ctx.arc(5,-8,1.8,0,Math.PI*2);ctx.fill();
     }
-    ctx.beginPath();ctx.ellipse(0,0,16,20,0,0,Math.PI*2);ctx.fill();
-    ctx.fillStyle='#000';ctx.beginPath();ctx.arc(-5,-6,4.5,0,Math.PI,true);ctx.fill();ctx.arc(5,-6,4.5,0,Math.PI,true);ctx.fill();
-    ctx.fillStyle=isFast?'#ff0':'#f22';ctx.arc(-5,-8,1.8,0,Math.PI*2);ctx.fill();ctx.arc(5,-8,1.8,0,Math.PI*2);ctx.fill();
-    if(isFast){ctx.strokeStyle='#600';ctx.lineWidth=3;ctx.beginPath();ctx.arc(0,8,7,0.1,Math.PI-0.1);ctx.stroke();}
     ctx.restore();
   }
 
   function drawJumpscare(){ctx.fillStyle='#000';ctx.fillRect(0,0,W,H);ctx.save();ctx.translate(W/2,H/2-15);ctx.fillStyle='#aac0d8';ctx.shadowColor='#c00';ctx.shadowBlur=55;ctx.beginPath();ctx.ellipse(0,0,65,85,0,0,Math.PI*2);ctx.fill();ctx.fillStyle='#000';ctx.beginPath();ctx.arc(-23,-20,11,0,Math.PI,true);ctx.fill();ctx.arc(23,-20,11,0,Math.PI,true);ctx.fill();ctx.fillStyle='#f00';ctx.arc(-23,-23,3.5,0,Math.PI*2);ctx.fill();ctx.arc(23,-23,3.5,0,Math.PI*2);ctx.fill();ctx.restore();}
 
-  // 按钮
   document.getElementById('btnNormal').onclick=function(e){e.preventDefault();e.stopPropagation();startGame('normal');};
   document.getElementById('btnNightmare').onclick=function(e){e.preventDefault();e.stopPropagation();startGame('nightmare');};
   document.getElementById('btnHell').onclick=function(e){e.preventDefault();e.stopPropagation();startGame('hell');};

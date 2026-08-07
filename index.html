@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>雨夜木屋 · 双鬼惊魂</title>
+  <title>雨夜木屋 · 增强版</title>
   <style>
     * {
       margin: 0;
@@ -18,10 +18,10 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      font-family: 'Courier New', Courier, monospace;
+      font-family: 'Courier New', monospace;
       touch-action: manipulation;
       overflow: hidden;
-      padding: 10px;
+      padding: 5px;
     }
     .game-container {
       position: relative;
@@ -31,7 +31,7 @@
       overflow: hidden;
       max-width: 100%;
       width: 100%;
-      aspect-ratio: 4 / 3;
+      aspect-ratio: 4/3;
       background: #0f0a07;
     }
     canvas {
@@ -42,48 +42,59 @@
     }
     .top-hud {
       position: absolute;
-      top: 8px;
-      left: 10px;
-      right: 10px;
+      top: 4px;
+      left: 6px;
+      right: 6px;
       display: flex;
       justify-content: space-between;
-      align-items: center;
       color: #f0e3ce;
-      text-shadow: 2px 2px 0 #000;
+      text-shadow: 1px 1px 0 #000;
       font-weight: bold;
-      font-size: clamp(11px, 3vw, 15px);
+      font-size: 10px;
       pointer-events: none;
-      background: rgba(10, 5, 2, 0.7);
-      padding: 5px 12px;
-      border-radius: 20px;
-      backdrop-filter: blur(4px);
-      letter-spacing: 1px;
+      background: rgba(10,5,2,0.7);
+      padding: 3px 8px;
+      border-radius: 12px;
       border: 1px solid #5e4a38;
-      gap: 10px;
-      flex-wrap: wrap;
+      z-index: 10;
+      gap: 4px;
+    }
+    .stamina-bar {
+      position: absolute;
+      top: 28px;
+      left: 10px;
+      width: 60px;
+      height: 4px;
+      background: #333;
+      border-radius: 2px;
+      z-index: 10;
+    }
+    .stamina-fill {
+      height: 100%;
+      background: #88cc44;
+      border-radius: 2px;
+      transition: width 0.2s;
     }
     .message-area {
       position: absolute;
-      top: 45px;
+      top: 35px;
       left: 50%;
       transform: translateX(-50%);
       background: rgba(0,0,0,0.85);
       color: #ffeedd;
-      padding: 4px 16px;
-      border-radius: 20px;
+      padding: 2px 12px;
+      border-radius: 12px;
       font-weight: bold;
-      font-size: 12px;
+      font-size: 10px;
       white-space: nowrap;
       border: 1px solid #7b6852;
       pointer-events: none;
-      text-shadow: 0 0 8px black;
+      z-index: 10;
     }
     .intro-overlay {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       background: rgba(0,0,0,0.9);
       display: flex;
       flex-direction: column;
@@ -92,444 +103,469 @@
       color: #d4c0a8;
       text-align: center;
       z-index: 20;
-      pointer-events: auto;
-      padding: 20px;
     }
     .intro-text {
-      font-size: clamp(16px, 4vw, 22px);
-      margin-bottom: 20px;
-      text-shadow: 0 0 15px black;
-      line-height: 1.5;
+      font-size: clamp(12px, 3vw, 18px);
+      margin-bottom: 12px;
+      line-height: 1.4;
     }
     .start-btn {
       background: #3b2b1b;
       color: #f5e7d3;
       border: 2px solid #8b7355;
-      padding: 10px 30px;
-      border-radius: 30px;
-      font-size: 18px;
+      padding: 6px 20px;
+      border-radius: 20px;
+      font-size: 14px;
       font-weight: bold;
       cursor: pointer;
     }
-    .joystick-zone {
+    .touch-hint {
       position: absolute;
       bottom: 15px;
       left: 15px;
-      width: 85px;
-      height: 85px;
-      background: rgba(25, 18, 12, 0.6);
-      border-radius: 55px;
-      border: 2px solid #5e4c3b;
-      backdrop-filter: blur(8px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      touch-action: none;
+      color: rgba(255,255,255,0.4);
+      font-size: 9px;
+      pointer-events: none;
+      z-index: 10;
     }
-    .joystick-thumb {
-      width: 42px;
-      height: 42px;
-      background: #3f3122;
-      border-radius: 28px;
-      border: 2px solid #b89a7a;
-      box-shadow: 0 4px 10px black;
-      background: radial-gradient(circle at 30% 30%, #6b5a4a, #2f1f12);
-    }
-    .action-buttons {
+    .action-btns {
       position: absolute;
-      bottom: 20px;
-      right: 15px;
+      bottom: 15px;
+      right: 12px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 6px;
+      z-index: 10;
     }
-    .stairs-btn {
+    .act-btn {
       background: #3b2b1b;
       color: #eedbc8;
       border: 2px solid #8b7355;
-      width: 50px;
-      height: 50px;
-      border-radius: 30px;
-      font-size: 22px;
+      width: 42px;
+      height: 42px;
+      border-radius: 24px;
+      font-size: 15px;
       font-weight: bold;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: radial-gradient(circle at 30% 30%, #5e4a38, #2a1c10);
-      box-shadow: 0 4px 8px black;
       cursor: pointer;
-      touch-action: manipulation;
+      background: radial-gradient(circle at 30% 30%, #5e4a38, #2a1c10);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+    }
+    .sprint-active {
+      background: #5a3a20 !important;
+      border-color: #cc9944 !important;
     }
     .restart-btn {
       position: absolute;
-      bottom: 15px;
-      left: 115px;
+      top: 4px;
+      right: 10px;
       background: #2d1f14;
       color: #dac29c;
-      border: 2px solid #6b5a4a;
-      padding: 6px 14px;
-      border-radius: 20px;
+      border: 1.5px solid #6b5a4a;
+      padding: 3px 10px;
+      border-radius: 10px;
       font-weight: bold;
       cursor: pointer;
-      font-size: 13px;
-      backdrop-filter: blur(5px);
+      font-size: 10px;
+      z-index: 11;
+    }
+    .heartbeat {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 5;
+      border: 2px solid transparent;
+      border-radius: 16px;
+      transition: border-color 0.2s;
     }
   </style>
 </head>
 <body>
-<div style="position: relative; width: 100%; max-width: 500px;">
+<div style="position:relative; width:100%; max-width:500px;">
   <div class="game-container" id="gameContainer">
     <canvas id="gameCanvas" width="800" height="600"></canvas>
+    <div class="heartbeat" id="heartbeat"></div>
     <div class="intro-overlay" id="introOverlay">
-      <div class="intro-text">雨夜，你迷失在森林…<br>躲进木屋，却发现二楼有两只鬼魂徘徊。<br>找到一楼柜子钥匙，打开二楼柜子取得大门钥匙逃离。橙子出品</div>
+      <div class="intro-text">雨夜，你迷失在森林…<br>木屋中传来诡异声响。<br>寻找钥匙、收集日记、躲避鬼魂，逃离这里！</div>
       <button class="start-btn" id="startButton">进入木屋</button>
     </div>
     <div class="top-hud">
       <span id="floorDisplay">🏠 一楼</span>
-      <span id="inventoryDisplay">📦柜锁:❌ | 🗝️大门钥匙:❌</span>
+      <span id="inventoryDisplay">📦:❌ 🗝️:❌ 📖:0/3</span>
     </div>
-    <div class="message-area" id="messageBox">在一楼寻找柜子钥匙…</div>
-    <div class="joystick-zone" id="joystickBase">
-      <div class="joystick-thumb" id="joystickThumb"></div>
+    <div class="stamina-bar"><div class="stamina-fill" id="staminaFill" style="width:100%"></div></div>
+    <div class="message-area" id="messageBox">寻找钥匙和日记碎片…</div>
+    <div class="touch-hint">👆左半屏滑动移动</div>
+    <div class="action-btns">
+      <div class="act-btn" id="btnStairs">↕️</div>
+      <div class="act-btn" id="btnHide">🫣</div>
+      <div class="act-btn" id="btnSprint">💨</div>
     </div>
-    <div class="action-buttons">
-      <div class="stairs-btn" id="btnStairs">⬆️⬇️</div>
-    </div>
-    <button class="restart-btn" id="restartButton">↺ 重来</button>
+    <button class="restart-btn" id="restartButton">↺</button>
   </div>
 </div>
 
 <script>
-  (function() {
-    const canvas = document.getElementById('gameCanvas');
-    const ctx = canvas.getContext('2d');
-    const W = 800, H = 600;
+(function(){
+  const canvas = document.getElementById('gameCanvas');
+  const ctx = canvas.getContext('2d');
+  const W=800, H=600;
+  const container = document.getElementById('gameContainer');
 
-    // 状态
-    let currentFloor = 1;
-    let player = { x: 400, y: 480, radius: 14, speed: 3.0 };
-    let hasCabinetKey = false;
-    let hasDoorKey = false;
-    let gameOver = false;
-    let win = false;
-    let deathTimer = 0;
-    let gameStarted = false;
+  let currentFloor=1, player={x:400,y:480,r:13,speed:2.5};
+  let hasCabinetKey=false, hasDoorKey=false, diaries=0;
+  let gameOver=false, win=false, deathTimer=0, gameStarted=false;
+  let stamina=100, maxStamina=100, sprinting=false;
+  let hiding=false, hideTimer=0, maxHideTime=180;
+  let hideSpot={x:300,y:440,radius:25};
+  let ghosts=[
+    {x:650,y:160,speed:1.2,visible:true,flashCD:0,flashTimer:0},
+    {x:680,y:220,speed:1.4,visible:true,flashCD:0,flashTimer:0}
+  ];
+  const FLASH_DIST=150, FLASH_CD=80, FLASH_DUR=25;
+  let diarySpots=[
+    {x:150,y:200,radius:15,collected:false},
+    {x:650,y:180,radius:15,collected:false},
+    {x:400,y:450,radius:15,collected:false}
+  ];
+  
+  // 触摸移动系统
+  let touchActive=false;
+  let touchStartX=0, touchStartY=0;
+  let touchCurrentX=0, touchCurrentY=0;
+  let moveX=0, moveY=0;
+  
+  const keys={w:false,a:false,s:false,d:false};
+  const stairs={x:300,y:270,w:200,h:70,floor1:{x:400,y:500},floor2:{x:400,y:480}};
+  const cabinetKeyPos={x:200,y:460,radius:18,collected:false};
+  const cabinetPos={x:580,y:200,radius:24,unlocked:false};
+  const exitDoorPos={x:620,y:520,radius:28};
+  let lightningFlash=0;
 
-    // 双鬼系统
-    let ghosts = [
-      { x: 650, y: 160, speed: 1.25, visible: true, flashCooldown: 0, flashTimer: 0, faceVariant: 0 },
-      { x: 680, y: 220, speed: 1.35, visible: true, flashCooldown: 0, flashTimer: 0, faceVariant: 1 }
-    ];
-    const FLASH_DIST = 155;
-    const FLASH_COOLDOWN = 75;
-    const FLASH_DURATION = 26;
+  let audioCtx;
+  function initAudio(){if(!audioCtx)try{audioCtx=new AudioContext()}catch(e){}}
+  function beep(freq,vol,dur){
+    if(!audioCtx)return;
+    try{
+      const o=audioCtx.createOscillator(),g=audioCtx.createGain();
+      o.type='square';o.frequency.value=freq;
+      g.gain.setValueAtTime(vol,audioCtx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+dur);
+      o.connect(g).connect(audioCtx.destination);
+      o.start();o.stop(audioCtx.currentTime+dur);
+    }catch(e){}
+  }
 
-    let moveAngle = null;
-    let movePower = 0;
-    const keys = { w: false, a: false, s: false, d: false };
+  function restart(){
+    currentFloor=1;player.x=400;player.y=480;
+    hasCabinetKey=hasDoorKey=false;diaries=0;
+    gameOver=win=false;deathTimer=0;
+    stamina=maxStamina;sprinting=false;hiding=false;hideTimer=0;
+    cabinetKeyPos.collected=false;cabinetPos.unlocked=false;
+    diarySpots.forEach(d=>d.collected=false);
+    ghosts=[{x:650,y:160,speed:1.2,visible:true,flashCD:0,flashTimer:0},{x:680,y:220,speed:1.4,visible:true,flashCD:0,flashTimer:0}];
+    touchActive=false;moveX=0;moveY=0;
+    updateUI();
+  }
 
-    const stairs = {
-      x: 300, y: 270, w: 200, h: 70,
-      floor1Pos: { x: 400, y: 500 },
-      floor2Pos: { x: 400, y: 480 }
-    };
+  function startGame(){
+    document.getElementById('introOverlay').style.display='none';
+    gameStarted=true;initAudio();restart();
+  }
 
-    const cabinetKeyPos = { x: 200, y: 460, radius: 18, collected: false };
-    const cabinetPos = { x: 580, y: 200, radius: 24, unlocked: false };
-    const doorKeyInCabinet = { collected: false };
-    const exitDoorPos = { x: 620, y: 520, radius: 28 };
+  function updateUI(){
+    document.getElementById('floorDisplay').textContent=currentFloor===1?'🏠 一楼':'🌑 二楼';
+    document.getElementById('inventoryDisplay').innerHTML=`📦:${hasCabinetKey?'✅':'❌'} 🗝️:${hasDoorKey?'✅':'❌'} 📖:${diaries}/3`;
+    document.getElementById('staminaFill').style.width=Math.max(0,stamina)+'%';
+    document.getElementById('staminaFill').style.background=stamina<30?'#cc4444':'#88cc44';
+    const sb=document.getElementById('btnSprint');
+    if(sprinting)sb.classList.add('sprint-active');
+    else sb.classList.remove('sprint-active');
+  }
 
-    let audioCtx = null;
-    function initAudio() {
-      if (audioCtx) return;
-      try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e) {}
-    }
-    function playSound(type='step', vol=0.07) {
-      if (!audioCtx || audioCtx.state==='suspended') { if(audioCtx) audioCtx.resume(); else return; }
-      const now = audioCtx.currentTime;
-      const gain = audioCtx.createGain();
-      gain.gain.setValueAtTime(vol, now);
-      gain.gain.exponentialRampToValueAtTime(0.001, now+0.2);
-      const osc = audioCtx.createOscillator();
-      if(type==='step') { osc.type='square'; osc.frequency.value=75; }
-      else if(type==='thunder') { osc.type='sawtooth'; osc.frequency.value=48; gain.gain.setValueAtTime(0.22,now); }
-      else if(type==='jumpscare') { osc.type='sawtooth'; osc.frequency.value=240; osc.frequency.exponentialRampToValueAtTime(40,now+0.5); gain.gain.setValueAtTime(0.5,now); }
-      osc.connect(gain).connect(audioCtx.destination);
-      osc.start(now); osc.stop(now+0.6);
-    }
-
-    function restartGame() {
-      currentFloor = 1;
-      player.x = 400; player.y = 480;
-      hasCabinetKey = false;
-      hasDoorKey = false;
-      gameOver = false;
-      win = false;
-      deathTimer = 0;
-      cabinetKeyPos.collected = false;
-      cabinetPos.unlocked = false;
-      doorKeyInCabinet.collected = false;
-      ghosts = [
-        { x: 650, y: 160, speed: 1.25, visible: true, flashCooldown: 0, flashTimer: 0, faceVariant: 0 },
-        { x: 680, y: 220, speed: 1.35, visible: true, flashCooldown: 0, flashTimer: 0, faceVariant: 1 }
-      ];
-      moveAngle = null; movePower = 0;
+  function switchFloor(){
+    if(gameOver||win)return;
+    if(player.x>stairs.x&&player.x<stairs.x+stairs.w&&player.y>stairs.y&&player.y<stairs.y+stairs.h){
+      currentFloor=currentFloor===1?2:1;
+      player.x=currentFloor===1?stairs.floor1.x:stairs.floor2.x;
+      player.y=currentFloor===1?stairs.floor1.y:stairs.floor2.y;
+      document.getElementById('messageBox').textContent=currentFloor===2?'来到阴暗的二楼…':'回到一楼';
+      if(currentFloor===1)ghosts=[{x:650,y:160,speed:1.2,visible:true,flashCD:0,flashTimer:0},{x:680,y:220,speed:1.4,visible:true,flashCD:0,flashTimer:0}];
       updateUI();
-      document.getElementById('messageBox').textContent = '在一楼寻找柜子钥匙…';
     }
+  }
 
-    function startGame() {
-      document.getElementById('introOverlay').style.display = 'none';
-      gameStarted = true;
-      initAudio();
-      restartGame();
+  function toggleHide(){
+    if(gameOver||win||currentFloor!==2)return;
+    if(Math.hypot(player.x-hideSpot.x,player.y-hideSpot.y)<hideSpot.radius+player.r){
+      hiding=!hiding;
+      hideTimer=hiding?maxHideTime:0;
+      document.getElementById('messageBox').textContent=hiding?'躲在衣柜里…':'从衣柜出来了';
     }
+  }
 
-    function updateUI() {
-      document.getElementById('floorDisplay').textContent = currentFloor===1 ? '🏠 一楼' : '🌑 二楼';
-      document.getElementById('inventoryDisplay').innerHTML = `📦柜锁:${hasCabinetKey?'✅':'❌'} | 🗝️大门钥匙:${hasDoorKey?'✅':'❌'}`;
+  function collectItems(){
+    if(gameOver||win||hiding)return;
+    if(currentFloor===1&&!cabinetKeyPos.collected&&Math.hypot(player.x-cabinetKeyPos.x,player.y-cabinetKeyPos.y)<cabinetKeyPos.radius+player.r){
+      cabinetKeyPos.collected=hasCabinetKey=true;
+      document.getElementById('messageBox').textContent='获得柜子钥匙！';
     }
-
-    function switchFloor() {
-      if (gameOver || win) return;
-      const px = player.x, py = player.y;
-      const inStairsZone = (px > stairs.x && px < stairs.x+stairs.w && py > stairs.y && py < stairs.y+stairs.h);
-      
-      if (inStairsZone) {
-        if (currentFloor === 1) {
-          currentFloor = 2;
-          player.x = stairs.floor2Pos.x;
-          player.y = stairs.floor2Pos.y;
-          document.getElementById('messageBox').textContent = '来到阴暗的二楼…两只鬼魂在游荡';
-        } else {
-          currentFloor = 1;
-          player.x = stairs.floor1Pos.x;
-          player.y = stairs.floor1Pos.y;
-          document.getElementById('messageBox').textContent = '回到一楼';
-          ghosts = [
-            { x: 650, y: 160, speed: 1.25, visible: true, flashCooldown: 0, flashTimer: 0, faceVariant: 0 },
-            { x: 680, y: 220, speed: 1.35, visible: true, flashCooldown: 0, flashTimer: 0, faceVariant: 1 }
-          ];
-        }
-        updateUI();
-        playSound('step',0.1);
-      } else {
-        document.getElementById('messageBox').textContent = '走到楼梯区域才能换层';
+    if(currentFloor===2&&hasCabinetKey&&!cabinetPos.unlocked&&Math.hypot(player.x-cabinetPos.x,player.y-cabinetPos.y)<cabinetPos.radius+player.r){
+      cabinetPos.unlocked=hasDoorKey=true;
+      document.getElementById('messageBox').textContent='打开柜子！发现大门钥匙！';
+    }
+    diarySpots.forEach(d=>{
+      if(!d.collected&&currentFloor===2&&Math.hypot(player.x-d.x,player.y-d.y)<d.radius+player.r){
+        d.collected=true;diaries++;
+        document.getElementById('messageBox').textContent=`找到日记碎片！(${diaries}/3)`;
+        beep(600,0.1,0.15);
       }
+    });
+    if(currentFloor===1&&hasDoorKey&&Math.hypot(player.x-exitDoorPos.x,player.y-exitDoorPos.y)<exitDoorPos.radius+player.r){
+      win=true;
+      document.getElementById('messageBox').textContent='你逃出了木屋！';
     }
+    updateUI();
+  }
 
-    function collectItems() {
-      if (gameOver || win || !gameStarted) return;
-      if (currentFloor === 1 && !cabinetKeyPos.collected && !hasCabinetKey) {
-        if (Math.hypot(player.x-cabinetKeyPos.x, player.y-cabinetKeyPos.y) < cabinetKeyPos.radius+player.radius) {
-          cabinetKeyPos.collected = true;
-          hasCabinetKey = true;
-          document.getElementById('messageBox').textContent = '获得柜子钥匙！去二楼打开柜子';
-          updateUI();
-        }
+  function updateGhosts(){
+    if(!gameStarted||gameOver||win||currentFloor!==2||hiding)return;
+    const heartbeat=document.getElementById('heartbeat');
+    let nearGhost=false;
+    ghosts.forEach(g=>{
+      g.visible=true;
+      if(g.flashCD>0)g.flashCD--;
+      if(g.flashTimer>0){g.flashTimer--;if(g.flashTimer===0)g.visible=true;}
+      const dx=player.x-g.x,dy=player.y-g.y,dist=Math.hypot(dx,dy);
+      if(g.visible&&g.flashTimer<=0){
+        g.x+=Math.cos(Math.atan2(dy,dx))*g.speed;
+        g.y+=Math.sin(Math.atan2(dy,dx))*g.speed;
       }
-      if (currentFloor === 2 && hasCabinetKey && !cabinetPos.unlocked) {
-        if (Math.hypot(player.x-cabinetPos.x, player.y-cabinetPos.y) < cabinetPos.radius+player.radius) {
-          cabinetPos.unlocked = true;
-          doorKeyInCabinet.collected = true;
-          hasDoorKey = true;
-          document.getElementById('messageBox').textContent = '打开柜子！发现大门钥匙！快回一楼';
-          updateUI();
-        }
+      if(dist<FLASH_DIST&&g.flashCD<=0&&g.flashTimer<=0&&g.visible){
+        g.visible=false;g.flashTimer=FLASH_DUR;g.flashCD=FLASH_CD;
+        g.x=player.x+Math.cos(Math.atan2(dy,dx))*40;
+        g.y=player.y+Math.sin(Math.atan2(dy,dx))*40;
+        beep(80,0.15,0.2);
       }
+      if(g.visible&&dist<player.r+18)triggerDeath();
+      if(dist<100)nearGhost=true;
+    });
+    heartbeat.style.borderColor=nearGhost?'rgba(255,0,0,0.6)':'transparent';
+    if(nearGhost&&Math.random()<0.3)beep(40,0.04,0.08);
+  }
+
+  function triggerDeath(){
+    gameOver=true;deathTimer=70;
+    document.getElementById('messageBox').textContent='被鬼抓住了...';
+  }
+
+  function movePlayer(){
+    if(!gameStarted||gameOver||win||hiding)return;
+    if(hiding){hideTimer--;if(hideTimer<=0){hiding=false;document.getElementById('messageBox').textContent='藏不住了！';}return;}
+    
+    if(sprinting&&(moveX!==0||moveY!==0||keys.w||keys.a||keys.s||keys.d)){
+      stamina-=1.2;
+      if(stamina<=0){sprinting=false;stamina=0;}
+    }else{stamina=Math.min(maxStamina,stamina+0.3);}
+    
+    let spd=sprinting?4.2:player.speed;
+    let dx=moveX, dy=moveY;
+    
+    // 键盘输入覆盖触摸
+    if(keys.w)dy=-1;
+    if(keys.s)dy=1;
+    if(keys.a)dx=-1;
+    if(keys.d)dx=1;
+    
+    if(dx!==0||dy!==0){
+      const l=Math.hypot(dx,dy);
+      player.x+=dx/l*spd;
+      player.y+=dy/l*spd;
     }
+    player.x=Math.min(Math.max(player.x,25),W-25);
+    player.y=Math.min(Math.max(player.y,70),H-30);
+    updateUI();
+  }
 
-    function checkExit() {
-      if (gameOver || win || !hasDoorKey || currentFloor!==1) return;
-      if (Math.hypot(player.x-exitDoorPos.x, player.y-exitDoorPos.y) < exitDoorPos.radius+player.radius) {
-        win = true;
-        document.getElementById('messageBox').textContent = '你逃出了木屋！';
-      }
-    }
-
-    function updateGhosts() {
-      if (!gameStarted || gameOver || win) return;
-      if (currentFloor !== 2) {
-        ghosts.forEach(g => g.visible = false);
-        return;
-      }
-      ghosts.forEach(g => {
-        g.visible = true;
-        if (g.flashCooldown > 0) g.flashCooldown--;
-        if (g.flashTimer > 0) { g.flashTimer--; if(g.flashTimer===0) g.visible=true; }
-
-        const dx = player.x - g.x;
-        const dy = player.y - g.y;
-        const dist = Math.hypot(dx, dy);
-        if (g.visible && g.flashTimer<=0) {
-          g.x += Math.cos(Math.atan2(dy,dx)) * g.speed;
-          g.y += Math.sin(Math.atan2(dy,dx)) * g.speed;
-        }
-        if (dist < FLASH_DIST && g.flashCooldown<=0 && g.flashTimer<=0 && g.visible) {
-          g.visible=false; g.flashTimer=FLASH_DURATION; g.flashCooldown=FLASH_COOLDOWN;
-          const ang = Math.atan2(dy,dx);
-          g.x = player.x + Math.cos(ang)*42; g.y = player.y + Math.sin(ang)*42;
-          playSound('thunder',0.16);
-        }
-        if (g.visible && dist < player.radius+18) triggerDeath();
-      });
-    }
-
-    function triggerDeath() {
-      if (gameOver||win) return;
-      gameOver=true; deathTimer=72;
-      playSound('jumpscare',0.6);
-      document.getElementById('messageBox').textContent='被鬼抓住了...';
-    }
-
-    function movePlayer() {
-      if (!gameStarted || gameOver||win) return;
-      let dx=0,dy=0;
-      if (movePower>0.2 && moveAngle!==null) { dx=Math.cos(moveAngle)*movePower; dy=Math.sin(moveAngle)*movePower; }
-      else { if(keys.w)dy-=1; if(keys.s)dy+=1; if(keys.a)dx-=1; if(keys.d)dx+=1; }
-      if(dx!==0||dy!==0){ const l=Math.hypot(dx,dy); player.x+=(dx/l)*player.speed; player.y+=(dy/l)*player.speed; if(Math.random()<0.12)playSound('step',0.05); }
-      player.x=Math.min(Math.max(player.x,30),W-30);
-      player.y=Math.min(Math.max(player.y,75),H-35);
-    }
-
-    function draw() {
-      ctx.clearRect(0,0,W,H);
-      drawBackground();
-
-      if(currentFloor===1) {
-        drawFirstFloor();
-        if(!gameOver||deathTimer<=0) drawPlayer();
-      } else {
-        drawSecondFloor();
-        if(!gameOver||deathTimer<=0) drawPlayer();
-        ghosts.forEach(g => { if(g.visible && !gameOver) drawGhost(g); });
-        ctx.save();
-        ctx.fillStyle='#000000';
-        ctx.beginPath();
-        ctx.rect(0,0,W,H);
-        ctx.arc(player.x, player.y, 105, 0, Math.PI*2);
-        ctx.fill('evenodd');
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    const grad=ctx.createLinearGradient(0,0,0,H);
+    grad.addColorStop(0,'#0e0703');grad.addColorStop(0.8,'#1a1008');
+    ctx.fillStyle=grad;ctx.fillRect(0,0,W,H);
+    
+    if(currentFloor===1){
+      ctx.fillStyle='#1a1008';ctx.fillRect(30,340,740,230);
+      ctx.strokeStyle='#4a3a2a';ctx.strokeRect(30,340,740,230);
+      ctx.fillStyle='#332214';ctx.fillRect(stairs.x,stairs.y,stairs.w,stairs.h);
+      ctx.fillStyle='#c9b896';ctx.font='bold 15px Courier';ctx.fillText('⬆️ 二楼',stairs.x+60,stairs.y+40);
+      if(!cabinetKeyPos.collected){ctx.fillStyle='#c9a96b';ctx.beginPath();ctx.arc(cabinetKeyPos.x,cabinetKeyPos.y,11,0,Math.PI*2);ctx.fill();ctx.fillText('🔑',cabinetKeyPos.x-15,cabinetKeyPos.y+5);}
+      ctx.fillStyle='#2e1c10';ctx.fillRect(exitDoorPos.x-22,exitDoorPos.y-32,44,64);
+      ctx.fillText('🚪',exitDoorPos.x-15,exitDoorPos.y+8);
+    }else{
+      ctx.fillStyle='#0f0a05';ctx.fillRect(30,60,740,220);
+      ctx.strokeStyle='#332214';ctx.strokeRect(30,60,740,220);
+      ctx.fillStyle='#332214';ctx.fillRect(stairs.x,stairs.y-80,stairs.w,stairs.h);
+      ctx.fillText('⬇️ 一楼',stairs.x+60,stairs.y-40);
+      ctx.fillStyle='#3d2818';ctx.fillRect(cabinetPos.x-22,cabinetPos.y-28,44,56);
+      ctx.fillText(cabinetPos.unlocked?'📭':'🗄️',cabinetPos.x-18,cabinetPos.y+5);
+      ctx.fillStyle='#4a3020';ctx.fillRect(hideSpot.x-18,hideSpot.y-20,36,40);
+      ctx.fillText('🪟',hideSpot.x-12,hideSpot.y+5);
+      diarySpots.forEach(d=>{if(!d.collected){ctx.fillStyle='#ffdd88';ctx.beginPath();ctx.arc(d.x,d.y,d.radius,0,Math.PI*2);ctx.fill();ctx.fillText('📄',d.x-8,d.y+5);}});
+      ghosts.forEach(g=>{if(g.visible){
+        ctx.save();ctx.translate(g.x,g.y);
+        const f=0.6+Math.sin(Date.now()*0.03)*0.2;
+        ctx.fillStyle=`rgba(155,185,205,${f})`;ctx.shadowColor='#992222';ctx.shadowBlur=25;
+        ctx.beginPath();ctx.ellipse(0,0,17,22,0,0,Math.PI*2);ctx.fill();
+        ctx.fillStyle='#000';ctx.beginPath();ctx.arc(-6,-7,5,0,Math.PI,true);ctx.fill();ctx.arc(6,-7,5,0,Math.PI,true);ctx.fill();
+        ctx.fillStyle='#f22';ctx.arc(-6,-9,2,0,Math.PI*2);ctx.fill();ctx.arc(6,-9,2,0,Math.PI*2);ctx.fill();
         ctx.restore();
-      }
+      }});
+      ctx.save();ctx.fillStyle='#000';ctx.beginPath();ctx.rect(0,0,W,H);ctx.arc(player.x,player.y,100,0,Math.PI*2);ctx.fill('evenodd');ctx.restore();
+    }
+    
+    if(!gameOver||deathTimer<=0){
+      ctx.save();ctx.translate(player.x,player.y);
+      ctx.fillStyle='#f5e7d3';ctx.shadowColor='#fc8';ctx.shadowBlur=12;
+      ctx.beginPath();ctx.arc(0,0,player.r,0,Math.PI*2);ctx.fill();
+      ctx.fillText('🧑',-11,6);ctx.restore();
+    }
+    if(gameOver&&deathTimer>0){drawJumpscare();deathTimer--;}
+    if(win){ctx.fillStyle='rgba(0,0,0,0.7)';ctx.fillRect(0,0,W,H);ctx.fillStyle='#f0e6c5';ctx.font='34px Courier';ctx.fillText('逃脱成功',W/2,H/2);}
+    
+    ctx.strokeStyle='rgba(150,180,210,0.4)';ctx.lineWidth=1;
+    for(let i=0;i<90;i++){let x=(i*22+Date.now()*0.3)%W,y=(i*14)%H;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x-2,y+10);ctx.stroke();}
+    if(lightningFlash>0){ctx.fillStyle=`rgba(200,220,255,${lightningFlash*0.3})`;ctx.fillRect(0,0,W,H);lightningFlash-=0.05;}
+    if(Math.random()<0.002)lightningFlash=1;
+  }
 
-      if(gameOver&&deathTimer>0){ drawJumpscare(); deathTimer--; }
-      if(win){ ctx.fillStyle='rgba(0,0,0,0.8)'; ctx.fillRect(0,0,W,H); ctx.fillStyle='#f0e6c5'; ctx.font='36px Courier'; ctx.fillText('逃脱成功',W/2,H/2); }
-      drawRain();
-    }
+  function drawJumpscare(){
+    ctx.fillStyle='#000';ctx.fillRect(0,0,W,H);
+    ctx.save();ctx.translate(W/2,H/2-15);
+    ctx.fillStyle='#aac0d8';ctx.shadowColor='#c00';ctx.shadowBlur=60;
+    ctx.beginPath();ctx.ellipse(0,0,70,90,0,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#000';ctx.beginPath();ctx.arc(-25,-22,12,0,Math.PI,true);ctx.fill();ctx.arc(25,-22,12,0,Math.PI,true);ctx.fill();
+    ctx.fillStyle='#f00';ctx.arc(-25,-25,4,0,Math.PI*2);ctx.fill();ctx.arc(25,-25,4,0,Math.PI*2);ctx.fill();
+    ctx.restore();
+  }
 
-    function drawBackground() {
-      const grad=ctx.createLinearGradient(0,0,0,H); grad.addColorStop(0,'#0e0703'); grad.addColorStop(0.8,'#1a1008');
-      ctx.fillStyle=grad; ctx.fillRect(0,0,W,H);
-    }
-    function drawFirstFloor() {
-      ctx.fillStyle='#1a1008'; ctx.fillRect(30,340,740,230);
-      ctx.strokeStyle='#4a3a2a'; ctx.strokeRect(30,340,740,230);
-      ctx.fillStyle='#332214'; ctx.fillRect(stairs.x, stairs.y, stairs.w, stairs.h);
-      ctx.fillStyle='#c9b896'; ctx.font='bold 16px Courier'; ctx.fillText('⬆️ 二楼', stairs.x+60, stairs.y+45);
-      if(!cabinetKeyPos.collected){
-        ctx.fillStyle='#c9a96b'; ctx.beginPath(); ctx.arc(cabinetKeyPos.x,cabinetKeyPos.y,12,0,2*Math.PI); ctx.fill();
-        ctx.fillText('🔑',cabinetKeyPos.x-15,cabinetKeyPos.y+5);
-      }
-      ctx.fillStyle='#2e1c10'; ctx.fillRect(exitDoorPos.x-25,exitDoorPos.y-35,50,70);
-      ctx.fillText('🚪',exitDoorPos.x-18,exitDoorPos.y+8);
-    }
-    function drawSecondFloor() {
-      ctx.fillStyle='#0f0a05'; ctx.fillRect(30,60,740,220);
-      ctx.strokeStyle='#332214'; ctx.strokeRect(30,60,740,220);
-      ctx.fillStyle='#332214'; ctx.fillRect(stairs.x, stairs.y-80, stairs.w, stairs.h);
-      ctx.fillText('⬇️ 一楼', stairs.x+60, stairs.y-35);
-      ctx.fillStyle='#3d2818'; ctx.fillRect(cabinetPos.x-25,cabinetPos.y-32,50,64);
-      ctx.fillStyle='#1f1008'; ctx.fillRect(cabinetPos.x-20,cabinetPos.y-28,40,56);
-      ctx.fillText(cabinetPos.unlocked?'📭':'🗄️',cabinetPos.x-22,cabinetPos.y+6);
-    }
-    function drawPlayer() {
-      ctx.save(); ctx.translate(player.x,player.y);
-      ctx.fillStyle='#f5e7d3'; ctx.shadowColor='#ffcc88'; ctx.shadowBlur=15;
-      ctx.beginPath(); ctx.arc(0,0,player.radius,0,2*Math.PI); ctx.fill();
-      ctx.fillStyle='#2c2416'; ctx.font='18px Courier'; ctx.fillText('🧑',-12,7);
-      ctx.restore();
-    }
-    function drawGhost(g) {
-      ctx.save(); ctx.translate(g.x, g.y);
-      const flicker = 0.6 + Math.sin(Date.now()*0.03 + g.faceVariant)*0.25;
-      ctx.fillStyle = `rgba(155, 185, 205, ${flicker})`;
-      ctx.shadowColor = '#992222';
-      ctx.shadowBlur = 28;
-      ctx.beginPath(); ctx.ellipse(0,0,19,25,0,0,2*Math.PI); ctx.fill();
-      ctx.fillStyle = '#0a0000';
-      ctx.shadowBlur = 12;
-      ctx.beginPath(); ctx.arc(-7,-8,5.5,0,Math.PI,true); ctx.fill();
-      ctx.beginPath(); ctx.arc(7,-8,5.5,0,Math.PI,true); ctx.fill();
-      ctx.fillStyle = '#ff2222';
-      ctx.beginPath(); ctx.arc(-7,-10,2.2,0,2*Math.PI); ctx.fill();
-      ctx.beginPath(); ctx.arc(7,-10,2.2,0,2*Math.PI); ctx.fill();
-      ctx.strokeStyle = '#440000';
-      ctx.lineWidth = 3.5;
-      ctx.beginPath(); ctx.arc(0,9,8,0.2,Math.PI-0.2); ctx.stroke();
-      ctx.fillStyle = '#550000';
-      ctx.beginPath(); ctx.arc(0,11,3.5,0,Math.PI); ctx.fill();
-      ctx.restore();
-    }
-    function drawJumpscare() {
-      ctx.fillStyle='#000000'; ctx.fillRect(0,0,W,H);
-      ctx.save(); ctx.translate(W/2, H/2-20);
-      ctx.fillStyle='#aac0d8'; ctx.shadowColor='#cc0000'; ctx.shadowBlur=65;
-      ctx.beginPath(); ctx.ellipse(0,0,80,100,0,0,2*Math.PI); ctx.fill();
-      ctx.fillStyle='#000'; ctx.beginPath(); ctx.arc(-28,-24,14,0,Math.PI,true); ctx.fill(); ctx.arc(28,-24,14,0,Math.PI,true); ctx.fill();
-      ctx.fillStyle='#ff0000'; ctx.arc(-28,-27,5,0,2*Math.PI); ctx.fill(); ctx.arc(28,-27,5,0,2*Math.PI); ctx.fill();
-      ctx.strokeStyle='#600'; ctx.lineWidth=6; ctx.beginPath(); ctx.arc(0,30,22,0.2,Math.PI-0.2); ctx.stroke();
-      ctx.restore();
-    }
-    function drawRain() {
-      ctx.strokeStyle='rgba(150,180,210,0.4)'; ctx.lineWidth=1;
-      for(let i=0;i<95;i++){ let x=(i*24+Date.now()*0.35)%W; let y=(i*13)%H; ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x-2,y+12); ctx.stroke(); }
-    }
-
-    const joystickBase=document.getElementById('joystickBase');
-    const joystickThumb=document.getElementById('joystickThumb');
-    let active=false;
-    function startJ(e){ e.preventDefault(); active=true; initAudio(); }
-    function moveJ(e){
-      if(!active)return; e.preventDefault();
-      const touch=e.touches?e.touches[0]:e;
-      const rect=joystickBase.getBoundingClientRect();
-      const cx=rect.left+rect.width/2, cy=rect.top+rect.height/2;
-      let dx=touch.clientX-cx, dy=touch.clientY-cy;
-      const dist=Math.hypot(dx,dy), max=32;
-      if(dist>max){ dx=(dx/dist)*max; dy=(dy/dist)*max; }
-      joystickThumb.style.transform=`translate(${dx}px,${dy}px)`;
-      movePower=Math.min(dist/max,1); moveAngle=Math.atan2(dy,dx);
-    }
-    function endJ(){ active=false; joystickThumb.style.transform='translate(0,0)'; movePower=0; moveAngle=null; }
-    joystickBase.addEventListener('touchstart',startJ); joystickBase.addEventListener('touchmove',moveJ); joystickBase.addEventListener('touchend',endJ);
-    joystickBase.addEventListener('mousedown',startJ); window.addEventListener('mousemove',(e)=>{if(active)moveJ(e)}); window.addEventListener('mouseup',endJ);
-
-    document.getElementById('btnStairs').addEventListener('click', ()=>{ initAudio(); switchFloor(); });
-    document.getElementById('restartButton').addEventListener('click', restartGame);
-    document.getElementById('startButton').addEventListener('click', startGame);
-
-    window.addEventListener('keydown', e=>{
-      const k=e.key.toLowerCase();
-      if(k==='w'||k==='arrowup'){keys.w=true;e.preventDefault();}
-      if(k==='s'||k==='arrowdown'){keys.s=true;e.preventDefault();}
-      if(k==='a'||k==='arrowleft'){keys.a=true;e.preventDefault();}
-      if(k==='d'||k==='arrowright'){keys.d=true;e.preventDefault();}
+  // ===== 全屏触摸移动系统 =====
+  container.addEventListener('touchstart', e => {
+    if(!gameStarted || gameOver || win) return;
+    // 只响应左半屏幕的触摸用于移动
+    const rect = container.getBoundingClientRect();
+    const tx = e.touches[0].clientX;
+    if(tx < rect.left + rect.width/2) {
+      e.preventDefault();
+      touchActive = true;
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+      touchCurrentX = touchStartX;
+      touchCurrentY = touchStartY;
+      moveX = 0; moveY = 0;
       initAudio();
-    });
-    window.addEventListener('keyup', e=>{
-      if(e.key.toLowerCase()==='w'||e.key==='ArrowUp')keys.w=false;
-      if(e.key.toLowerCase()==='s'||e.key==='ArrowDown')keys.s=false;
-      if(e.key.toLowerCase()==='a'||e.key==='ArrowLeft')keys.a=false;
-      if(e.key.toLowerCase()==='d'||e.key==='ArrowRight')keys.d=false;
-    });
-
-    function loop() {
-      if(gameStarted && !gameOver && !win) { movePlayer(); collectItems(); checkExit(); updateGhosts(); }
-      draw();
-      requestAnimationFrame(loop);
     }
-    loop();
-  })();
+  }, {passive: false});
+
+  container.addEventListener('touchmove', e => {
+    if(!touchActive) return;
+    e.preventDefault();
+    touchCurrentX = e.touches[0].clientX;
+    touchCurrentY = e.touches[0].clientY;
+    
+    const dx = touchCurrentX - touchStartX;
+    const dy = touchCurrentY - touchStartY;
+    const dist = Math.hypot(dx, dy);
+    
+    if(dist > 5) { // 5px死区
+      moveX = dx / 30; // 灵敏度
+      moveY = dy / 30;
+      // 限制最大值
+      const mag = Math.hypot(moveX, moveY);
+      if(mag > 1) {
+        moveX /= mag;
+        moveY /= mag;
+      }
+    } else {
+      moveX = 0;
+      moveY = 0;
+    }
+  }, {passive: false});
+
+  container.addEventListener('touchend', e => {
+    if(touchActive) {
+      touchActive = false;
+      moveX = 0;
+      moveY = 0;
+    }
+  });
+
+  container.addEventListener('touchcancel', () => {
+    touchActive = false;
+    moveX = 0;
+    moveY = 0;
+  });
+
+  // 按钮事件
+  document.getElementById('btnStairs').addEventListener('pointerdown', e => {
+    e.preventDefault(); e.stopPropagation();
+    initAudio(); switchFloor();
+  });
+  document.getElementById('btnHide').addEventListener('pointerdown', e => {
+    e.preventDefault(); e.stopPropagation();
+    initAudio(); toggleHide();
+  });
+  
+  const sprintBtn = document.getElementById('btnSprint');
+  sprintBtn.addEventListener('pointerdown', e => {
+    e.preventDefault(); e.stopPropagation();
+    if(stamina > 0) sprinting = true;
+    updateUI();
+  });
+  sprintBtn.addEventListener('pointerup', e => {
+    e.preventDefault(); sprinting = false; updateUI();
+  });
+  sprintBtn.addEventListener('pointerleave', () => {
+    sprinting = false; updateUI();
+  });
+  
+  document.getElementById('restartButton').addEventListener('click', e => {
+    e.stopPropagation(); restart();
+  });
+  document.getElementById('startButton').addEventListener('click', startGame);
+
+  // 键盘
+  window.addEventListener('keydown', e => {
+    const k = e.key.toLowerCase();
+    if(k==='w') keys.w=true;
+    if(k==='s') keys.s=true;
+    if(k==='a') keys.a=true;
+    if(k==='d') keys.d=true;
+    if(k==='shift'){ e.preventDefault(); if(stamina>0) sprinting=true; }
+    initAudio();
+  });
+  window.addEventListener('keyup', e => {
+    const k = e.key.toLowerCase();
+    if(k==='w') keys.w=false;
+    if(k==='s') keys.s=false;
+    if(k==='a') keys.a=false;
+    if(k==='d') keys.d=false;
+    if(k==='shift') sprinting=false;
+  });
+
+  function loop(){
+    if(gameStarted && !gameOver && !win) {
+      movePlayer();
+      collectItems();
+      updateGhosts();
+    }
+    draw();
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
 </script>
 </body>
 </html>

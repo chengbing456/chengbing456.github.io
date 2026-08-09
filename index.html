@@ -2,253 +2,473 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>雨夜木屋v1.4</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, maximum-scale=1.5">
+  <title>🍊 橙子被抓走 · 游戏消失了</title>
   <style>
-    * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; user-select:none; }
-    body { background:#0a0c0f; display:flex; justify-content:center; align-items:center; min-height:100vh; font-family:'Courier New',monospace; touch-action:manipulation; overflow:hidden; padding:5px; }
-    .game-container { position:relative; box-shadow:0 0 45px rgba(0,0,0,0.9); border:3px solid #3a2e22; border-radius:16px; overflow:hidden; max-width:100%; width:100%; aspect-ratio:4/3; background:#0f0a07; }
-    canvas { display:block; width:100%; height:100%; background:#0a0806; }
-    .top-hud { position:absolute; top:4px; left:6px; right:6px; display:flex; justify-content:space-between; color:#f0e3ce; text-shadow:1px 1px 0 #000; font-weight:bold; font-size:10px; pointer-events:none; background:rgba(10,5,2,0.7); padding:3px 8px; border-radius:12px; border:1px solid #5e4a38; z-index:10; }
-    .stamina-bar { position:absolute; top:28px; left:10px; width:60px; height:4px; background:#333; border-radius:2px; z-index:10; display:none; }
-    .stamina-fill { height:100%; background:#88cc44; border-radius:2px; transition:width 0.2s; }
-    .battery-bar { position:absolute; top:34px; left:10px; width:60px; height:4px; background:#333; border-radius:2px; z-index:10; display:none; }
-    .battery-fill { height:100%; background:#44aacc; border-radius:2px; transition:width 0.2s; }
-    .sanity-bar { position:absolute; top:40px; left:10px; width:60px; height:4px; background:#333; border-radius:2px; z-index:10; display:none; }
-    .sanity-fill { height:100%; background:#cc44cc; border-radius:2px; transition:width 0.2s; }
-    .message-area { position:absolute; top:55px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.85); color:#ffeedd; padding:2px 12px; border-radius:12px; font-weight:bold; font-size:10px; white-space:nowrap; border:1px solid #7b6852; pointer-events:none; z-index:10; }
-    .intro-overlay { position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); display:flex; flex-direction:column; align-items:center; justify-content:center; color:#d4c0a8; text-align:center; z-index:20; }
-    .intro-text { font-size:clamp(12px,3vw,16px); margin-bottom:15px; line-height:1.4; }
-    .difficulty-btns { display:flex; gap:8px; margin-bottom:10px; flex-wrap:wrap; justify-content:center; }
-    .diff-btn { padding:8px 16px; border-radius:20px; font-size:13px; font-weight:bold; cursor:pointer; border:2px solid #8b7355; color:#f5e7d3; pointer-events:auto; }
-    .diff-normal { background:#3b5a2b; }
-    .diff-nightmare { background:#5a2b2b; }
-    .diff-hell { background:#2b2b5a; }
-    .diff-desc { font-size:10px; color:#b7a797; margin-top:5px; max-width:280px; }
-    .bottom-left-group { position:absolute; bottom:15px; left:15px; display:flex; flex-direction:column; align-items:flex-start; gap:6px; z-index:10; }
-    .touch-hint { color:rgba(255,255,255,0.35); font-size:9px; pointer-events:none; }
-    .restart-btn { background:#2d1f14; color:#dac29c; border:1.5px solid #6b5a4a; padding:4px 10px; border-radius:10px; font-weight:bold; cursor:pointer; font-size:10px; }
-    .action-btns { position:absolute; bottom:15px; right:12px; display:flex; flex-direction:column; gap:5px; z-index:10; }
-    .act-btn { background:#3b2b1b; color:#eedbc8; border:2px solid #8b7355; width:38px; height:38px; border-radius:22px; font-size:14px; font-weight:bold; display:flex; align-items:center; justify-content:center; cursor:pointer; background:radial-gradient(circle at 30% 30%, #5e4a38, #2a1c10); box-shadow:0 2px 6px rgba(0,0,0,0.5); touch-action:manipulation; }
-    .sprint-active { background:#5a3a20!important; border-color:#cc9944!important; }
-    .heartbeat { position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:5; border:2px solid transparent; border-radius:16px; transition:border-color 0.2s; }
-    .code-panel { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); background:rgba(0,0,0,0.9); border:2px solid #8b7355; border-radius:15px; padding:15px; z-index:15; display:none; text-align:center; }
-    .code-display { color:#ffdd88; font-size:24px; letter-spacing:10px; margin:10px 0; }
-    .code-buttons { display:flex; gap:8px; justify-content:center; flex-wrap:wrap; }
-    .code-btn { background:#3b2b1b; color:#eedbc8; border:2px solid #8b7355; width:35px; height:35px; border-radius:20px; font-size:16px; cursor:pointer; }
-    .code-submit { background:#4a6a3a; color:white; border:2px solid #8b7355; padding:6px 15px; border-radius:15px; margin-top:8px; cursor:pointer; font-weight:bold; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: linear-gradient(145deg, #1a1e2b 0%, #2a3142 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Segoe UI', 'Fredoka', 'Comic Neue', system-ui, sans-serif;
+      padding: 20px;
+      margin: 0;
+      transition: background 0.3s ease;
+    }
+    
+    /* 游戏消失时的背景闪烁 - 修复为只触发一次，避免无限闪动 */
+    body.glitch-world {
+      background: #0b0c10;
+      animation: bgFlicker 0.3s 2; /* 只闪烁2次，然后停止 */
+    }
+    
+    @keyframes bgFlicker {
+      0% { background: #0a0c12; }
+      50% { background: #1f1f2b; }
+      100% { background: #0b0c10; }
+    }
+
+    .game-container {
+      background: rgba(255, 248, 235, 0.1);
+      backdrop-filter: blur(18px);
+      border-radius: 60px 60px 50px 50px;
+      padding: 35px 30px 40px;
+      box-shadow: 0 30px 50px rgba(0,0,0,0.6), inset 0 2px 10px rgba(255,180,100,0.3);
+      border: 1px solid rgba(255, 140, 0, 0.25);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+      max-width: 500px;
+      width: 100%;
+      position: relative;
+    }
+
+    .game-container.vanished {
+      opacity: 0.35;
+      filter: blur(6px) contrast(1.2);
+      transform: scale(0.96);
+      pointer-events: none;
+      border-color: rgba(200, 0, 0, 0.5);
+      box-shadow: 0 0 50px rgba(255, 0, 0, 0.4);
+    }
+
+    .stage-area {
+      background: #fbe9d2;
+      border-radius: 80px 80px 40px 40px;
+      padding: 25px 15px 20px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: radial-gradient(circle at 30% 20%, #ffe5c4, #fdcb9e);
+      box-shadow: inset 0 -8px 0 #cb8e5a, 0 15px 25px rgba(0,0,0,0.5);
+      margin-bottom: 25px;
+      transition: 0.4s;
+      position: relative;
+    }
+
+    .character-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 35px;
+      flex-wrap: wrap;
+      margin: 15px 0;
+    }
+
+    .orange-box, .monster-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 4.5rem;
+      filter: drop-shadow(0 12px 10px rgba(0,0,0,0.4));
+      transition: transform 0.2s, opacity 0.3s;
+    }
+
+    .orange-box span {
+      font-size: 4.8rem;
+      display: block;
+    }
+
+    .monster-box span {
+      font-size: 5rem;
+    }
+
+    .orange-label, .monster-label {
+      font-size: 1.2rem;
+      font-weight: bold;
+      background: rgba(0,0,0,0.6);
+      color: white;
+      padding: 4px 14px;
+      border-radius: 30px;
+      margin-top: 5px;
+      letter-spacing: 1px;
+    }
+
+    /* 怪兽抓走动画 */
+    .monster-grab .orange-box {
+      animation: grabShake 0.25s ease-in-out, fadeOutOrange 0.4s forwards 0.25s;
+    }
+    
+    @keyframes grabShake {
+      0% { transform: translate(0, 0); }
+      25% { transform: translate(12px, -8px); }
+      50% { transform: translate(-14px, 5px); }
+      75% { transform: translate(8px, -4px); }
+      100% { transform: translate(0, 0); }
+    }
+    
+    @keyframes fadeOutOrange {
+      0% { opacity: 1; transform: scale(1); }
+      100% { opacity: 0; transform: scale(0.2) translateY(-30px); }
+    }
+
+    .story-text {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #2d1c0c;
+      background: rgba(255, 245, 215, 0.9);
+      padding: 10px 25px;
+      border-radius: 50px;
+      margin: 10px 0 5px;
+      text-align: center;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      backdrop-filter: blur(5px);
+      transition: 0.3s;
+      border: 2px solid #ffa74e;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 10px 0 5px;
+    }
+
+    .btn {
+      background: #ffb347;
+      border: none;
+      background: linear-gradient(180deg, #ffb85c 0%, #ff8c1a 100%);
+      color: #2d1300;
+      font-weight: bold;
+      font-size: 1.3rem;
+      padding: 14px 28px;
+      border-radius: 60px;
+      box-shadow: 0 8px 0 #b85e0c, 0 12px 22px rgba(0,0,0,0.4);
+      cursor: pointer;
+      transition: all 0.08s ease;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      border: 2px solid #ffd58c;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn:active {
+      transform: translateY(5px);
+      box-shadow: 0 4px 0 #b85e0c, 0 10px 18px rgba(0,0,0,0.5);
+      background: linear-gradient(180deg, #ff9f2f 0%, #e07b00 100%);
+    }
+
+    .btn:disabled {
+      opacity: 0.6;
+      transform: translateY(3px);
+      box-shadow: 0 4px 0 #7b4410, 0 8px 12px rgba(0,0,0,0.4);
+      pointer-events: none;
+      filter: grayscale(0.2);
+    }
+
+    .reset-btn {
+      background: linear-gradient(180deg, #c0c0c0 0%, #7a7a7a 100%);
+      border-color: #d4d4d4;
+      box-shadow: 0 8px 0 #4e4e4e, 0 12px 22px rgba(0,0,0,0.4);
+      color: #1e1e1e;
+    }
+
+    .glitch-message {
+      font-family: monospace;
+      background: black;
+      color: #ff4444;
+      padding: 12px 25px;
+      border-radius: 20px;
+      font-size: 1.4rem;
+      font-weight: bold;
+      margin-top: 15px;
+      text-shadow: 0 0 10px red;
+      border: 2px dashed #ff0000;
+      letter-spacing: 2px;
+      display: none;
+      text-align: center;
+    }
+
+    .visible-message {
+      display: block;
+    }
+
+    @media (max-width: 450px) {
+      .character-row {
+        gap: 20px;
+      }
+      .orange-box span, .monster-box span {
+        font-size: 3.8rem;
+      }
+      .btn {
+        font-size: 1rem;
+        padding: 12px 22px;
+      }
+    }
   </style>
 </head>
 <body>
-<div style="position:relative; width:100%; max-width:500px;">
   <div class="game-container" id="gameContainer">
-    <canvas id="gameCanvas" width="800" height="600"></canvas>
-    <div class="heartbeat" id="heartbeat"></div>
-    <div class="intro-overlay" id="introOverlay">
-      <div class="intro-text">🌧️ 雨夜木屋 🌧️<br>选择你的命运</div>
-      <div class="difficulty-btns">
-        <button class="diff-btn diff-normal" id="btnNormal">普通</button>
-        <button class="diff-btn diff-nightmare" id="btnNightmare">噩梦</button>
-        <button class="diff-btn diff-hell" id="btnHell">地狱</button>
+    <div class="stage-area">
+      <div class="character-row">
+        <div class="orange-box" id="orangeBox">
+          <span>🍊</span>
+          <div class="orange-label">橙子</div>
+        </div>
+        <div class="monster-box" id="monsterBox">
+          <span>👾</span>
+          <div class="monster-label">怪兽</div>
+        </div>
       </div>
-      <div class="diff-desc" id="diffDesc">选择难度开始游戏</div>
+      <div class="story-text" id="storyDisplay">🍊 橙子正在开心地玩耍</div>
     </div>
-    <div class="top-hud">
-      <span id="floorDisplay">🏠 一楼</span>
-      <span id="inventoryDisplay"></span>
+
+    <div class="action-buttons">
+      <button class="btn" id="grabBtn">👾 怪兽抓走</button>
+      <button class="btn reset-btn" id="resetBtn">🌀 重新开始</button>
     </div>
-    <div class="stamina-bar" id="staminaBar"><div class="stamina-fill" id="staminaFill" style="width:100%"></div></div>
-    <div class="battery-bar" id="batteryBar"><div class="battery-fill" id="batteryFill" style="width:100%"></div></div>
-    <div class="sanity-bar" id="sanityBar"><div class="sanity-fill" id="sanityFill" style="width:100%"></div></div>
-    <div class="message-area" id="messageBox">寻找钥匙和日记碎片…</div>
-    <div class="code-panel" id="codePanel">
-      <div style="color:#ffeedd;font-size:14px;">输入3位密码</div>
-      <div class="code-display" id="codeDisplay">___</div>
-      <div class="code-buttons" id="codeButtons"></div>
-      <button class="code-submit" id="codeSubmit">确认</button>
-      <button class="code-submit" id="codeCancel" style="background:#5a3a3a;">取消</button>
-    </div>
-    <div class="bottom-left-group">
-      <span class="touch-hint">👆左半屏移动</span>
-      <button class="restart-btn" id="restartButton">↺ 重新开始</button>
-    </div>
-    <div class="action-btns">
-      <button class="act-btn" id="btnStairs">↕️</button>
-      <button class="act-btn" id="btnHide">🫣</button>
-      <button class="act-btn" id="btnSprint">💨</button>
+
+    <div class="glitch-message" id="glitchMessage">
+      ⚠️ 游戏消失了 ⚠️<br> <span style="font-size:1rem;">橙子被怪兽抓走了...</span>
     </div>
   </div>
-</div>
 
-<script>
-(function(){
-  const canvas=document.getElementById('gameCanvas');
-  const ctx=canvas.getContext('2d');
-  const W=800,H=600,container=document.getElementById('gameContainer');
+  <script>
+    (function() {
+      // ----- 游戏核心状态 -----
+      let isOrangeGrabbed = false;   // 橙子是否已被抓
+      let gameVanished = false;     // 游戏是否已消失
+      let vanishTimer = null;       // 延迟消失定时器
+      let isAnimating = false;      // 防止动画重复触发
 
-  let difficulty='normal';
-  let currentFloor=1,player={x:400,y:480,r:13,speed:2.5};
-  let hasRealKey=false,hasCabinetKey=false,hasDoorKey=false,hasHammer=false,codes=0,diaries=0;
-  let battery=100,maxBattery=100,sanity=100,maxSanity=100;
-  let gameOver=false,win=false,deathTimer=0,gameStarted=false;
-  let stamina=100,sprinting=false;
-  let hiding=false,hideTimer=0,maxHideTime=120;
-  let inputCode='',showCodePanel=false,hallucinationTimer=0;
-  let correctCode='472',codeDigits=[];
-  let boardBlockingDoor=true;
-  
-  let hideSpot={x:300,y:440,radius:25};
-  let ghosts=[];
-  let codeSpots=[],keySpots=[],batterySpots=[],trapFloors=[],diarySpots=[],hammerSpot=null;
-  
-  let moveTouchId=null,moveStartX=0,moveStartY=0,moveX=0,moveY=0;
-  const keys={w:false,a:false,s:false,d:false};
-  const stairsFloor1={x:300,y:270,w:200,h:70};
-  const stairsFloor2={x:300,y:190,w:200,h:70};
-  const stairsFloor3={x:300,y:110,w:200,h:70};
-  const exitDoorPos={x:620,y:520,radius:28};
-  let lightningFlash=0,doorUnlocked=false;
+      // DOM 元素
+      const gameContainer = document.getElementById('gameContainer');
+      const orangeBox = document.getElementById('orangeBox');
+      const monsterBox = document.getElementById('monsterBox');
+      const storyDisplay = document.getElementById('storyDisplay');
+      const grabBtn = document.getElementById('grabBtn');
+      const resetBtn = document.getElementById('resetBtn');
+      const glitchMessage = document.getElementById('glitchMessage');
 
-  function generateRandomCode(){const d=[];while(d.length<3){const n=Math.floor(Math.random()*10);if(!d.includes(n))d.push(n);}return{code:d.join(''),digits:d};}
-  let audioCtx;function initAudio(){if(!audioCtx)try{audioCtx=new AudioContext()}catch(e){}}
-  function beep(f,v,d){if(!audioCtx)return;try{const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='square';o.frequency.value=f;g.gain.setValueAtTime(v,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+d);o.connect(g).connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+d);}catch(e){}}
-
-  function setupDifficulty(diff){
-    difficulty=diff;
-    document.getElementById('staminaBar').style.display='none';document.getElementById('batteryBar').style.display='none';document.getElementById('sanityBar').style.display='none';
-    document.getElementById('btnHide').style.display='none';document.getElementById('btnSprint').style.display='none';
-    boardBlockingDoor=false;hasHammer=false;hammerSpot=null;ghosts=[];codeSpots=[];keySpots=[];batterySpots=[];trapFloors=[];diarySpots=[];
-    
-    if(diff==='normal'){
-      ghosts=[{x:650,y:160,speed:1.6,visible:true,flashCD:180,flashTimer:0,floor:2},{x:200,y:200,speed:1.8,visible:true,flashCD:200,flashTimer:0,floor:2}];
-      keySpots=[{x:200,y:460,radius:16,collected:false,floor:1,type:'cabinetKey'},{x:580,y:200,radius:16,collected:false,floor:2,type:'doorKey'}];
-      diarySpots=[{x:150,y:200,radius:15,collected:false},{x:650,y:180,radius:15,collected:false},{x:400,y:450,radius:15,collected:false}];
-      hasCabinetKey=hasDoorKey=hasRealKey=false;codes=diaries=0;battery=100;doorUnlocked=true;
-    }else if(diff==='nightmare'){
-      ghosts=[{x:200,y:150,speed:2.5,visible:true,flashCD:150,flashTimer:0,patrolDir:1,patrolAxis:'x',patrolMin:150,patrolMax:650,floor:2},{x:600,y:200,speed:2.5,visible:true,flashCD:170,flashTimer:0,patrolDir:1,patrolAxis:'y',patrolMin:120,patrolMax:250,floor:2},{x:400,y:180,speed:2.5,visible:true,flashCD:160,flashTimer:0,patrolDir:-1,patrolAxis:'x',patrolMin:100,patrolMax:700,floor:2}];
-      codeSpots=[{x:120,y:200,radius:14,collected:false,num:4},{x:680,y:160,radius:14,collected:false,num:7},{x:400,y:400,radius:14,collected:false,num:2}];
-      keySpots=[{x:200,y:460,radius:16,collected:false,trap:true,floor:1,type:'trap'},{x:580,y:200,radius:16,collected:false,real:true,floor:2,type:'realKey'},{x:350,y:180,radius:16,collected:false,trap:true,floor:2,type:'trap'}];
-      batterySpots=[{x:500,y:450,radius:13,collected:false,floor:1},{x:150,y:160,radius:13,collected:false,floor:2}];trapFloors=[{x:450,y:180,radius:30,triggered:false}];
-      hasCabinetKey=hasDoorKey=hasRealKey=false;codes=diaries=0;battery=100;doorUnlocked=false;correctCode='472';
-      document.getElementById('staminaBar').style.display='block';document.getElementById('batteryBar').style.display='block';
-      document.getElementById('btnHide').style.display='flex';document.getElementById('btnSprint').style.display='flex';
-    }else{
-      const rc=generateRandomCode();correctCode=rc.code;codeDigits=rc.digits;
-      ghosts=[{x:200,y:150,speed:3.0,visible:true,flashCD:120,flashTimer:0,patrolDir:1,patrolAxis:'x',patrolMin:150,patrolMax:650,floor:2},{x:600,y:200,speed:3.2,visible:true,flashCD:130,flashTimer:0,patrolDir:1,patrolAxis:'y',patrolMin:120,patrolMax:250,floor:2},{x:400,y:180,speed:3.5,visible:true,flashCD:110,flashTimer:0,patrolDir:-1,patrolAxis:'x',patrolMin:100,patrolMax:700,floor:2},{x:400,y:140,speed:5.8,visible:true,flashCD:30,flashTimer:0,floor:3,isBoss:true}];
-      codeSpots=[{x:100,y:180,radius:14,collected:false,num:codeDigits[0]},{x:700,y:140,radius:14,collected:false,num:codeDigits[1]},{x:400,y:380,radius:14,collected:false,num:codeDigits[2]}];
-      keySpots=[{x:200,y:460,radius:16,collected:false,trap:true,floor:1,type:'trap'},{x:600,y:460,radius:16,collected:false,trap:true,floor:1,type:'trap'},{x:580,y:200,radius:16,collected:false,real:true,floor:2,type:'realKey'},{x:300,y:160,radius:16,collected:false,trap:true,floor:2,type:'trap'},{x:500,y:220,radius:16,collected:false,trap:true,floor:2,type:'trap'}];
-      batterySpots=[{x:150,y:450,radius:13,collected:false,floor:1}];trapFloors=[{x:350,y:150,radius:30,triggered:false},{x:550,y:200,radius:25,triggered:false},{x:200,y:180,radius:28,triggered:false}];
-      hammerSpot={x:400,y:200,radius:18,collected:false};
-      hasCabinetKey=hasDoorKey=hasRealKey=hasHammer=false;codes=0;diaries=0;battery=50;sanity=maxSanity;doorUnlocked=false;boardBlockingDoor=true;
-      document.getElementById('staminaBar').style.display='block';document.getElementById('batteryBar').style.display='block';document.getElementById('sanityBar').style.display='block';
-      document.getElementById('btnHide').style.display='flex';document.getElementById('btnSprint').style.display='flex';
-    }
-    currentFloor=1;player.x=400;player.y=480;gameOver=win=false;deathTimer=0;stamina=100;sprinting=false;hiding=false;showCodePanel=false;hallucinationTimer=0;
-    document.getElementById('codePanel').style.display='none';updateUI();
-  }
-
-  function restart(){setupDifficulty(difficulty);document.getElementById('messageBox').textContent=difficulty==='normal'?'寻找钥匙和日记碎片…':difficulty==='nightmare'?'寻找密码数字和真钥匙…':'去三楼找锤子破坏门板！';moveTouchId=null;moveX=0;moveY=0;}
-  function startGame(diff){document.getElementById('introOverlay').style.display='none';gameStarted=true;initAudio();setupDifficulty(diff);if(diff==='nightmare'||diff==='hell')buildCodeButtons();document.getElementById('messageBox').textContent=difficulty==='normal'?'寻找钥匙和日记碎片…':difficulty==='nightmare'?'寻找密码数字和真钥匙…':'去三楼找锤子破坏门板！';}
-  function buildCodeButtons(){const c=document.getElementById('codeButtons');c.innerHTML='';for(let i=0;i<=9;i++){const b=document.createElement('button');b.className='code-btn';b.textContent=i;b.addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();if(inputCode.length<3){inputCode+=i;updateCodeDisplay();}});c.appendChild(b);}}
-  function updateCodeDisplay(){let d='';for(let i=0;i<3;i++)d+=inputCode[i]||'_';document.getElementById('codeDisplay').textContent=d;}
-
-  function updateUI(){
-    let ft='🏠 一楼';if(currentFloor===2)ft='🌑 二楼';else if(currentFloor===3)ft='💀 三楼';document.getElementById('floorDisplay').textContent=ft;
-    if(difficulty==='normal')document.getElementById('inventoryDisplay').innerHTML=`📦锁:${hasCabinetKey?'✅':'❌'} 🗝️:${hasDoorKey?'✅':'❌'} 📖:${diaries}/3`;
-    else{let inv=`🔢:${codes}/3 🗝️:${hasRealKey?'✅':'❌'} 🔋:${Math.floor(battery)}%`;if(difficulty==='hell')inv=`🔨:${hasHammer?'✅':'❌'} `+inv+` 🧠:${Math.floor(sanity)}%`;document.getElementById('inventoryDisplay').innerHTML=inv;document.getElementById('staminaFill').style.width=Math.max(0,stamina)+'%';document.getElementById('batteryFill').style.width=Math.max(0,battery)+'%';if(difficulty==='hell')document.getElementById('sanityFill').style.width=Math.max(0,sanity)+'%';}
-  }
-
-  function isInStairs(){if(currentFloor===1)return player.x>stairsFloor1.x&&player.x<stairsFloor1.x+stairsFloor1.w&&player.y>stairsFloor1.y&&player.y<stairsFloor1.y+stairsFloor1.h;if(currentFloor===2)return player.x>stairsFloor2.x&&player.x<stairsFloor2.x+stairsFloor2.w&&player.y>stairsFloor2.y&&player.y<stairsFloor2.y+stairsFloor2.h;if(currentFloor===3)return player.x>stairsFloor3.x&&player.x<stairsFloor3.x+stairsFloor3.w&&player.y>stairsFloor3.y&&player.y<stairsFloor3.y+stairsFloor3.h;return false;}
-  function switchFloor(){if(gameOver||win||showCodePanel)return;if(isInStairs()){if(difficulty==='hell'){if(currentFloor===1)currentFloor=2;else if(currentFloor===2)currentFloor=3;else currentFloor=1;}else{currentFloor=currentFloor===1?2:1;}player.x=400;player.y=currentFloor===1?500:currentFloor===2?480:460;document.getElementById('messageBox').textContent=currentFloor===1?'回到一楼':currentFloor===2?'来到阴暗的二楼…':'来到恐怖的三楼…';updateUI();}}
-  function toggleHide(){if(difficulty==='normal'||gameOver||win||currentFloor===1||showCodePanel)return;if(Math.hypot(player.x-hideSpot.x,player.y-hideSpot.y)<hideSpot.radius+player.r){hiding=!hiding;hideTimer=hiding?maxHideTime:0;document.getElementById('messageBox').textContent=hiding?'躲在衣柜里…':'从衣柜出来了';}}
-
-  function collectItems(){
-    if(gameOver||win||hiding||showCodePanel)return;
-    if(difficulty==='hell'&&currentFloor===3&&hammerSpot&&!hammerSpot.collected&&Math.hypot(player.x-hammerSpot.x,player.y-hammerSpot.y)<hammerSpot.radius+player.r){hammerSpot.collected=true;hasHammer=true;document.getElementById('messageBox').textContent='找到锤子！自动返回一楼破坏门板！';currentFloor=1;player.x=400;player.y=500;boardBlockingDoor=false;beep(1000,0.2,0.3);updateUI();return;}
-    if(difficulty==='normal'){keySpots.forEach(k=>{if(!k.collected&&k.floor===currentFloor&&Math.hypot(player.x-k.x,player.y-k.y)<k.radius+player.r){k.collected=true;if(k.type==='cabinetKey'){hasCabinetKey=true;document.getElementById('messageBox').textContent='获得柜子钥匙！';}else if(k.type==='doorKey'&&hasCabinetKey){hasDoorKey=true;document.getElementById('messageBox').textContent='发现大门钥匙！';}beep(800,0.1,0.15);}});diarySpots.forEach(d=>{if(!d.collected&&currentFloor===2&&Math.hypot(player.x-d.x,player.y-d.y)<d.radius+player.r){d.collected=true;diaries++;document.getElementById('messageBox').textContent=`找到日记碎片！(${diaries}/3)`;}});if(currentFloor===1&&hasDoorKey&&Math.hypot(player.x-exitDoorPos.x,player.y-exitDoorPos.y)<exitDoorPos.radius+player.r){win=true;document.getElementById('messageBox').textContent='你逃出了木屋！';}}
-    else{if(currentFloor===2)codeSpots.forEach(c=>{if(!c.collected&&Math.hypot(player.x-c.x,player.y-c.y)<c.radius+player.r){c.collected=true;codes++;document.getElementById('messageBox').textContent=`找到密码数字 ${c.num}！(${codes}/3)`;}});keySpots.forEach(k=>{if(!k.collected&&k.floor===currentFloor&&Math.hypot(player.x-k.x,player.y-k.y)<k.radius+player.r){k.collected=true;if(k.trap){ghosts.forEach(g=>g.speed+=0.5);document.getElementById('messageBox').textContent='假钥匙！鬼魂加速！';}else{hasRealKey=true;document.getElementById('messageBox').textContent='找到真钥匙！';}beep(k.trap?200:1000,0.2,0.3);}});batterySpots.forEach(b=>{if(!b.collected&&b.floor===currentFloor&&Math.hypot(player.x-b.x,player.y-b.y)<b.radius+player.r){b.collected=true;battery=Math.min(maxBattery,battery+15);document.getElementById('messageBox').textContent='找到电池！+15%电量';}});if(currentFloor===2)trapFloors.forEach(t=>{if(!t.triggered&&Math.hypot(player.x-t.x,player.y-t.y)<t.radius+player.r){t.triggered=true;ghosts.forEach(g=>g.flashCD=0);document.getElementById('messageBox').textContent='咔嚓！踩到陷阱！';}});if(currentFloor===1&&codes>=3&&hasRealKey&&!doorUnlocked&&Math.hypot(player.x-exitDoorPos.x,player.y-exitDoorPos.y)<exitDoorPos.radius+25){if(difficulty==='hell'&&boardBlockingDoor){document.getElementById('messageBox').textContent='门被木板封住了！需要锤子！';return;}if(!showCodePanel){showCodePanel=true;inputCode='';updateCodeDisplay();document.getElementById('codePanel').style.display='block';}}if(currentFloor===1&&doorUnlocked&&Math.hypot(player.x-exitDoorPos.x,player.y-exitDoorPos.y)<exitDoorPos.radius+player.r){win=true;document.getElementById('messageBox').textContent='你逃出了木屋！';}}
-    updateUI();
-  }
-
-  function updateGhosts(){
-    if(!gameStarted||gameOver||win||hiding||showCodePanel)return;
-    const heartbeat=document.getElementById('heartbeat');let nearGhost=false;
-    if(difficulty==='hell'&&currentFloor===2){sanity-=0.02;if(sanity<=0){sanity=0;hallucinationTimer++;}else hallucinationTimer=0;}
-    
-    ghosts.forEach(g=>{
-      if(currentFloor!==g.floor){g.visible=false;return;}
-      g.visible=true;if(g.flashCD>0)g.flashCD--;if(g.flashTimer>0){g.flashTimer--;if(g.flashTimer===0)g.visible=true;}
-      const dx=player.x-g.x,dy=player.y-g.y,dist=Math.hypot(dx,dy);
-      
-      const deathDist=g.isBoss?player.r+25:player.r+22;
-      if(g.visible&&dist<deathDist){triggerDeath();return;}
-      
-      if(g.isBoss){
-        if(g.visible&&g.flashTimer<=0&&dist>15){const ang=Math.atan2(dy,dx);g.x+=Math.cos(ang)*g.speed*0.9;g.y+=Math.sin(ang)*g.speed*0.9;}
-        if(dist>60&&dist<180&&g.flashCD<=0&&g.flashTimer<=0&&g.visible){g.visible=false;g.flashTimer=10;g.flashCD=25;const atp=Math.atan2(dy,dx);const oa=atp+(Math.random()-0.5)*Math.PI*0.3;const fd=50+Math.random()*30;g.x=player.x+Math.cos(oa)*fd;g.y=player.y+Math.sin(oa)*fd;g.x=Math.min(Math.max(g.x,40),W-40);g.y=Math.min(Math.max(g.y,100),H-40);beep(60,0.15,0.15);}
-        if(dist<100)nearGhost=true;
-      }else{
-        if(g.patrolAxis&&g.visible&&g.flashTimer<=0){const ps=g.speed*0.3;if(g.patrolAxis==='x'){g.x+=ps*g.patrolDir;if(g.x>g.patrolMax||g.x<g.patrolMin)g.patrolDir*=-1;}else{g.y+=ps*g.patrolDir;if(g.y>g.patrolMax||g.y<g.patrolMin)g.patrolDir*=-1;}}
-        if(g.visible&&g.flashTimer<=0&&dist>50){const ang=Math.atan2(dy,dx);g.x+=Math.cos(ang)*g.speed*0.6;g.y+=Math.sin(ang)*g.speed*0.6;}
-        const FT=difficulty==='hell'?120:100;
-        if(dist>50&&dist<FT&&g.flashCD<=0&&g.flashTimer<=0&&g.visible){g.visible=false;g.flashTimer=15;g.flashCD=difficulty==='hell'?80:160;const atp=Math.atan2(dy,dx);const oa=atp+Math.PI+(Math.random()-0.5)*Math.PI*0.5;const fd=130+Math.random()*60;g.x=player.x+Math.cos(oa)*fd;g.y=player.y+Math.sin(oa)*fd;g.x=Math.min(Math.max(g.x,40),W-40);g.y=Math.min(Math.max(g.y,100),H-40);if(Math.random()<0.3)beep(80,0.08,0.1);}
-        if(dist<90)nearGhost=true;
+      // ----- 工具函数：清理所有定时器和动画状态 -----
+      function clearAllTimersAndAnimations() {
+        if (vanishTimer) {
+          clearTimeout(vanishTimer);
+          vanishTimer = null;
+        }
+        // 移除动画类（强制停止CSS动画）
+        orangeBox.classList.remove('monster-grab');
+        // 重置动画标志
+        isAnimating = false;
+        // 移除背景闪烁动画（通过重设body类）
+        document.body.classList.remove('glitch-world');
       }
-    });
-    heartbeat.style.borderColor=nearGhost?'rgba(255,0,0,0.5)':'transparent';
-    if(nearGhost&&Math.random()<0.2)beep(40,0.02,0.04);
-  }
 
-  function triggerDeath(){gameOver=true;deathTimer=70;document.getElementById('messageBox').textContent='被鬼抓住了...';}
+      // ----- 更新界面 -----
+      function updateUI() {
+        // 故事文本
+        if (gameVanished) {
+          storyDisplay.textContent = '❌ 游戏世界崩溃了...';
+        } else if (isOrangeGrabbed) {
+          storyDisplay.textContent = '😱 橙子被怪兽抓走了！';
+        } else {
+          storyDisplay.textContent = '🍊 橙子正在开心地玩耍';
+        }
 
-  function movePlayer(){
-    if(!gameStarted||gameOver||win||hiding||showCodePanel)return;
-    if(hiding){hideTimer--;if(hideTimer<=0){hiding=false;document.getElementById('messageBox').textContent='藏不住了！';}return;}
-    if(difficulty!=='normal'){battery-=difficulty==='hell'?0.05:0.04;if(battery<=0){battery=0;player.speed=difficulty==='hell'?1.0:1.3;}else player.speed=2.5;}
-    if(sprinting&&difficulty!=='normal'&&(moveX||moveY||keys.w||keys.a||keys.s||keys.d)){stamina-=1.0;if(stamina<=0){sprinting=false;stamina=0;}}else{stamina=Math.min(100,stamina+0.3);}
-    let spd=(sprinting&&difficulty!=='normal'&&battery>0)?4.0:player.speed;
-    let dx=moveX,dy=moveY;if(keys.w)dy=-1;if(keys.s)dy=1;if(keys.a)dx=-1;if(keys.d)dx=1;
-    if(dx||dy){const l=Math.hypot(dx,dy);player.x+=dx/l*spd;player.y+=dy/l*spd;}
-    player.x=Math.min(Math.max(player.x,25),W-25);player.y=Math.min(Math.max(player.y,70),H-30);updateUI();
-  }
+        // 故障消息显示
+        if (gameVanished) {
+          glitchMessage.classList.add('visible-message');
+        } else {
+          glitchMessage.classList.remove('visible-message');
+        }
 
-  function draw(){
-    ctx.clearRect(0,0,W,H);ctx.fillStyle='#0e0703';ctx.fillRect(0,0,W,H);
-    if(difficulty==='hell'&&sanity<30){ctx.fillStyle=`rgba(255,0,0,${0.08*(1-sanity/30)})`;ctx.fillRect(0,0,W,H);}
-    if(currentFloor===1){ctx.fillStyle='#1a1008';ctx.fillRect(30,340,740,230);ctx.strokeStyle='#4a3a2a';ctx.strokeRect(30,340,740,230);ctx.fillStyle='#332214';ctx.fillRect(stairsFloor1.x,stairsFloor1.y,stairsFloor1.w,stairsFloor1.h);ctx.fillText('⬆️ 二楼',stairsFloor1.x+60,stairsFloor1.y+40);if(difficulty==='normal')keySpots.forEach(k=>{if(!k.collected&&k.floor===1){ctx.fillStyle='#c9a96b';ctx.beginPath();ctx.arc(k.x,k.y,k.radius,0,Math.PI*2);ctx.fill();ctx.fillText('🔑',k.x-12,k.y+5);}});else{keySpots.forEach(k=>{if(!k.collected&&k.floor===1){ctx.fillStyle=k.trap?'#ff6666':'#c9a96b';ctx.beginPath();ctx.arc(k.x,k.y,k.radius,0,Math.PI*2);ctx.fill();}});batterySpots.forEach(b=>{if(!b.collected&&b.floor===1){ctx.fillStyle='#44aacc';ctx.beginPath();ctx.arc(b.x,b.y,b.radius,0,Math.PI*2);ctx.fill();ctx.fillText('🔋',b.x-8,b.y+5);}});}if(difficulty==='hell'&&boardBlockingDoor){ctx.fillStyle='#8b4513';ctx.fillRect(exitDoorPos.x-30,exitDoorPos.y-40,60,80);ctx.fillText('🪵🔒',exitDoorPos.x-20,exitDoorPos.y);}else{ctx.fillStyle=doorUnlocked?'#4a8a3a':'#2e1c10';ctx.fillRect(exitDoorPos.x-22,exitDoorPos.y-32,44,64);ctx.fillText(doorUnlocked?'🚪✅':'🚪🔒',exitDoorPos.x-18,exitDoorPos.y+8);}}
-    else if(currentFloor===2){ctx.fillStyle='#0f0a05';ctx.fillRect(30,60,740,220);ctx.strokeStyle='#332214';ctx.strokeRect(30,60,740,220);ctx.fillStyle='#332214';ctx.fillRect(stairsFloor2.x,stairsFloor2.y,stairsFloor2.w,stairsFloor2.h);ctx.fillText(difficulty==='hell'?'⬆️ 三楼':'⬇️ 一楼',stairsFloor2.x+60,stairsFloor2.y+40);if(difficulty==='normal'){keySpots.forEach(k=>{if(!k.collected&&k.floor===2){ctx.fillStyle='#c9a96b';ctx.beginPath();ctx.arc(k.x,k.y,k.radius,0,Math.PI*2);ctx.fill();ctx.fillText('🔑',k.x-12,k.y+5);}});diarySpots.forEach(d=>{if(!d.collected){ctx.fillStyle='#ffdd88';ctx.beginPath();ctx.arc(d.x,d.y,d.radius,0,Math.PI*2);ctx.fill();ctx.fillText('📄',d.x-8,d.y+5);}});}else{codeSpots.forEach(c=>{if(!c.collected){ctx.fillStyle='#ffdd88';ctx.beginPath();ctx.arc(c.x,c.y,c.radius,0,Math.PI*2);ctx.fill();ctx.fillText(c.num,c.x-5,c.y+5);}});keySpots.forEach(k=>{if(!k.collected&&k.floor===2){ctx.fillStyle=k.trap?'#ff6666':'#c9a96b';ctx.beginPath();ctx.arc(k.x,k.y,k.radius,0,Math.PI*2);ctx.fill();}});batterySpots.forEach(b=>{if(!b.collected&&b.floor===2){ctx.fillStyle='#44aacc';ctx.beginPath();ctx.arc(b.x,b.y,b.radius,0,Math.PI*2);ctx.fill();ctx.fillText('🔋',b.x-8,b.y+5);}});trapFloors.forEach(t=>{if(!t.triggered){ctx.fillStyle='rgba(100,50,20,0.4)';ctx.beginPath();ctx.arc(t.x,t.y,t.radius,0,Math.PI*2);ctx.fill();}});ctx.fillStyle='#4a3020';ctx.fillRect(hideSpot.x-18,hideSpot.y-20,36,40);ctx.fillText('🪟',hideSpot.x-12,hideSpot.y+5);}}
-    else if(currentFloor===3){ctx.fillStyle='#1a0505';ctx.fillRect(30,30,740,200);ctx.strokeStyle='#662222';ctx.strokeRect(30,30,740,200);ctx.fillStyle='#332214';ctx.fillRect(stairsFloor3.x,stairsFloor3.y,stairsFloor3.w,stairsFloor3.h);ctx.fillText('⬇️ 二楼',stairsFloor3.x+60,stairsFloor3.y+40);if(hammerSpot&&!hammerSpot.collected){ctx.fillStyle='#ffaa00';ctx.beginPath();ctx.arc(hammerSpot.x,hammerSpot.y,hammerSpot.radius,0,Math.PI*2);ctx.fill();ctx.fillText('🔨',hammerSpot.x-10,hammerSpot.y+6);}}
-    ghosts.forEach(g=>{if(g.visible&&g.floor===currentFloor)drawGhost(g,g.isBoss);});
-    if(currentFloor===2||currentFloor===3){const vr=difficulty==='normal'?140:(difficulty==='hell'&&sanity<30?50:(battery>0?85:35));ctx.save();ctx.fillStyle='#000';ctx.beginPath();ctx.rect(0,0,W,H);ctx.arc(player.x,player.y,vr,0,Math.PI*2);ctx.fill('evenodd');ctx.restore();}
-    if(!gameOver||deathTimer<=0){ctx.save();ctx.translate(player.x,player.y);ctx.fillStyle='#f5e7d3';ctx.shadowColor='#fc8';ctx.shadowBlur=10;ctx.beginPath();ctx.arc(0,0,player.r,0,Math.PI*2);ctx.fill();ctx.fillText('🧑',-10,5);ctx.restore();}
-    if(gameOver&&deathTimer>0){drawJumpscare();deathTimer--;}
-    if(win){ctx.fillStyle='rgba(0,0,0,0.7)';ctx.fillRect(0,0,W,H);ctx.fillStyle='#f0e6c5';ctx.font='34px Courier';ctx.fillText('逃脱成功',W/2,H/2);}
-    ctx.strokeStyle='rgba(150,180,210,0.35)';ctx.lineWidth=1;for(let i=0;i<80;i++){let x=(i*24+Date.now()*0.3)%W,y=(i*15)%H;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x-2,y+9);ctx.stroke();}
-    if(lightningFlash>0){ctx.fillStyle=`rgba(200,220,255,${lightningFlash*0.3})`;ctx.fillRect(0,0,W,H);lightningFlash-=0.05;}if(Math.random()<0.003)lightningFlash=1;
-  }
+        // 容器消失效果
+        if (gameVanished) {
+          gameContainer.classList.add('vanished');
+          // 背景闪烁只添加一次，由triggerGameVanish控制
+        } else {
+          gameContainer.classList.remove('vanished');
+          document.body.classList.remove('glitch-world');
+        }
 
-  function drawGhost(g,isBoss){ctx.save();ctx.translate(g.x,g.y);if(isBoss){ctx.fillStyle=`rgba(255,30,30,${0.8+Math.sin(Date.now()*0.08)*0.2})`;ctx.shadowColor='#ff0000';ctx.shadowBlur=40;ctx.beginPath();ctx.ellipse(0,0,20,26,0,0,Math.PI*2);ctx.fill();ctx.fillStyle='#000';ctx.beginPath();ctx.arc(-7,-8,6,0,Math.PI,true);ctx.fill();ctx.arc(7,-8,6,0,Math.PI,true);ctx.fill();ctx.fillStyle='#ff0';ctx.arc(-7,-10,2.5,0,Math.PI*2);ctx.fill();ctx.arc(7,-10,2.5,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#800';ctx.lineWidth=4;ctx.beginPath();ctx.arc(0,10,9,0.1,Math.PI-0.1);ctx.stroke();}else{ctx.fillStyle=`rgba(155,185,205,${0.5+Math.sin(Date.now()*0.03)*0.2})`;ctx.shadowColor='#992222';ctx.shadowBlur=22;ctx.beginPath();ctx.ellipse(0,0,16,20,0,0,Math.PI*2);ctx.fill();ctx.fillStyle='#000';ctx.beginPath();ctx.arc(-5,-6,4.5,0,Math.PI,true);ctx.fill();ctx.arc(5,-6,4.5,0,Math.PI,true);ctx.fill();ctx.fillStyle='#f22';ctx.arc(-5,-8,1.8,0,Math.PI*2);ctx.fill();ctx.arc(5,-8,1.8,0,Math.PI*2);ctx.fill();}ctx.restore();}
-  function drawJumpscare(){ctx.fillStyle='#000';ctx.fillRect(0,0,W,H);ctx.save();ctx.translate(W/2,H/2-15);ctx.fillStyle='#aac0d8';ctx.shadowColor='#c00';ctx.shadowBlur=55;ctx.beginPath();ctx.ellipse(0,0,65,85,0,0,Math.PI*2);ctx.fill();ctx.fillStyle='#000';ctx.beginPath();ctx.arc(-23,-20,11,0,Math.PI,true);ctx.fill();ctx.arc(23,-20,11,0,Math.PI,true);ctx.fill();ctx.fillStyle='#f00';ctx.arc(-23,-23,3.5,0,Math.PI*2);ctx.fill();ctx.arc(23,-23,3.5,0,Math.PI*2);ctx.fill();ctx.restore();}
+        // 怪兽表情
+        if (gameVanished) {
+          monsterBox.querySelector('span').textContent = '💀';
+        } else if (isOrangeGrabbed) {
+          monsterBox.querySelector('span').textContent = '😈';
+        } else {
+          monsterBox.querySelector('span').textContent = '👾';
+        }
 
-  container.addEventListener('touchstart',e=>{if(!gameStarted||gameOver||win||showCodePanel)return;const rect=container.getBoundingClientRect();for(let i=0;i<e.changedTouches.length;i++){const t=e.changedTouches[i];const btns=[document.getElementById('btnStairs'),document.getElementById('btnHide'),document.getElementById('btnSprint'),document.getElementById('restartButton')];const tb=btns.some(b=>{const br=b.getBoundingClientRect();return t.clientX>=br.left&&t.clientX<=br.right&&t.clientY>=br.top&&t.clientY<=br.bottom;});if(!tb&&t.clientX<rect.left+rect.width/2&&moveTouchId===null){e.preventDefault();moveTouchId=t.identifier;moveStartX=t.clientX;moveStartY=t.clientY;moveX=0;moveY=0;initAudio();}}},{passive:false});
-  container.addEventListener('touchmove',e=>{if(moveTouchId===null)return;for(let i=0;i<e.changedTouches.length;i++){const t=e.changedTouches[i];if(t.identifier===moveTouchId){e.preventDefault();const dx=t.clientX-moveStartX,dy=t.clientY-moveStartY;const d=Math.hypot(dx,dy);if(d>5){moveX=dx/30;moveY=dy/30;const m=Math.hypot(moveX,moveY);if(m>1){moveX/=m;moveY/=m;}}}}},{passive:false});
-  container.addEventListener('touchend',e=>{for(let i=0;i<e.changedTouches.length;i++){if(e.changedTouches[i].identifier===moveTouchId){moveTouchId=null;moveX=0;moveY=0;}}});
-  container.addEventListener('touchcancel',()=>{moveTouchId=null;moveX=0;moveY=0;});
+        // 橙子可见性
+        if (isOrangeGrabbed || gameVanished) {
+          orangeBox.style.opacity = '0';
+          orangeBox.style.pointerEvents = 'none';
+        } else {
+          orangeBox.style.opacity = '1';
+          orangeBox.style.pointerEvents = 'auto';
+        }
 
-  document.getElementById('btnStairs').addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();initAudio();switchFloor();});
-  document.getElementById('btnHide').addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();initAudio();toggleHide();});
-  const sb=document.getElementById('btnSprint');sb.addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();if(stamina>0)sprinting=true;updateUI();});sb.addEventListener('pointerup',e=>{e.preventDefault();sprinting=false;updateUI();});sb.addEventListener('pointerleave',e=>{sprinting=false;updateUI();});
-  document.getElementById('restartButton').addEventListener('click',e=>{e.stopPropagation();restart();});
-  document.getElementById('btnNormal').onclick=function(e){e.preventDefault();e.stopPropagation();startGame('normal');};
-  document.getElementById('btnNightmare').onclick=function(e){e.preventDefault();e.stopPropagation();startGame('nightmare');};
-  document.getElementById('btnHell').onclick=function(e){e.preventDefault();e.stopPropagation();startGame('hell');};
-  document.getElementById('codeSubmit').onclick=function(e){e.preventDefault();e.stopPropagation();if(inputCode===correctCode){doorUnlocked=true;showCodePanel=false;document.getElementById('codePanel').style.display='none';document.getElementById('messageBox').textContent='密码正确！';}else{document.getElementById('messageBox').textContent='密码错误！';inputCode='';updateCodeDisplay();}};
-  document.getElementById('codeCancel').onclick=function(e){e.preventDefault();e.stopPropagation();showCodePanel=false;inputCode='';document.getElementById('codePanel').style.display='none';updateCodeDisplay();};
-  window.addEventListener('keydown',e=>{if(showCodePanel){if(e.key>='0'&&e.key<='9'&&inputCode.length<3){inputCode+=e.key;updateCodeDisplay();}if(e.key==='Enter')document.getElementById('codeSubmit').click();if(e.key==='Escape')document.getElementById('codeCancel').click();return;}const k=e.key.toLowerCase();if(k==='w')keys.w=true;if(k==='s')keys.s=true;if(k==='a')keys.a=true;if(k==='d')keys.d=true;if(k==='shift'){e.preventDefault();if(stamina>0)sprinting=true;}initAudio();});
-  window.addEventListener('keyup',e=>{const k=e.key.toLowerCase();if(k==='w')keys.w=false;if(k==='s')keys.s=false;if(k==='a')keys.a=false;if(k==='d')keys.d=false;if(k==='shift')sprinting=false;});
-  function loop(){if(gameStarted&&!gameOver&&!win){movePlayer();collectItems();updateGhosts();}draw();requestAnimationFrame(loop);}
-  loop();
-})();
-</script>
+        // 按钮状态
+        grabBtn.disabled = gameVanished;
+      }
+
+      // ----- 重置游戏 -----
+      function resetGame() {
+        clearAllTimersAndAnimations();
+        isOrangeGrabbed = false;
+        gameVanished = false;
+        isAnimating = false;
+        
+        // 确保橙子可见且无动画残留
+        orangeBox.style.opacity = '1';
+        monsterBox.querySelector('span').textContent = '👾';
+        document.body.classList.remove('glitch-world');
+        
+        updateUI();
+      }
+
+      // ----- 游戏消失（最终阶段）-----
+      function triggerGameVanish() {
+        // 防止重复触发
+        if (gameVanished) return;
+        
+        // 清除定时器
+        if (vanishTimer) {
+          clearTimeout(vanishTimer);
+          vanishTimer = null;
+        }
+        
+        // 确保状态一致：游戏消失时橙子必须已被抓
+        if (!isOrangeGrabbed) {
+          isOrangeGrabbed = true;
+        }
+        
+        gameVanished = true;
+        isAnimating = false; // 动画流程结束
+        
+        // 添加背景闪烁效果（只播放有限次数，由CSS控制）
+        document.body.classList.add('glitch-world');
+        
+        // 更新界面
+        updateUI();
+        
+        console.log('💥 游戏世界消失了...');
+      }
+
+      // ----- 怪兽抓走橙子（第一阶段）-----
+      function monsterGrabsOrange() {
+        // 防止在动画进行中或游戏已消失时重复触发
+        if (isAnimating || gameVanished || isOrangeGrabbed) {
+          // 特殊情况：橙子已被抓但游戏未消失，可手动触发消失
+          if (isOrangeGrabbed && !gameVanished && !isAnimating) {
+            triggerGameVanish();
+          }
+          return;
+        }
+
+        // 设置动画锁
+        isAnimating = true;
+        
+        // 添加抓取动画类
+        orangeBox.classList.add('monster-grab');
+        
+        // 更新状态
+        isOrangeGrabbed = true;
+        updateUI();
+        
+        // 监听动画结束事件（只绑定一次）
+        const onAnimationEnd = (e) => {
+          if (e.target === orangeBox && e.animationName.includes('fadeOutOrange')) {
+            // 移除监听器
+            orangeBox.removeEventListener('animationend', onAnimationEnd);
+            // 移除动画类
+            orangeBox.classList.remove('monster-grab');
+            // 释放动画锁
+            isAnimating = false;
+            
+            // 确保橙子状态正确
+            updateUI();
+            
+            // 设置定时器，1.8秒后游戏消失
+            if (vanishTimer) clearTimeout(vanishTimer);
+            vanishTimer = setTimeout(() => {
+              if (isOrangeGrabbed && !gameVanished) {
+                triggerGameVanish();
+              }
+              vanishTimer = null;
+            }, 1800);
+          }
+        };
+        
+        orangeBox.addEventListener('animationend', onAnimationEnd);
+      }
+
+      // ----- 事件绑定 -----
+      grabBtn.addEventListener('click', () => {
+        if (gameVanished) return;
+        
+        if (!isOrangeGrabbed) {
+          monsterGrabsOrange();
+        } else if (isOrangeGrabbed && !gameVanished) {
+          // 如果橙子已抓但游戏未消失，直接触发消失
+          if (vanishTimer) {
+            clearTimeout(vanishTimer);
+            vanishTimer = null;
+          }
+          triggerGameVanish();
+        }
+      });
+
+      resetBtn.addEventListener('click', resetGame);
+
+      // 点击怪兽彩蛋
+      monsterBox.addEventListener('click', () => {
+        if (gameVanished) {
+          alert('游戏已经消失了... 怪兽带着橙子逃走了。');
+          return;
+        }
+        if (!isOrangeGrabbed && !isAnimating) {
+          monsterGrabsOrange();
+        } else if (isOrangeGrabbed && !gameVanished && !isAnimating) {
+          if (vanishTimer) {
+            clearTimeout(vanishTimer);
+            vanishTimer = null;
+          }
+          triggerGameVanish();
+        }
+      });
+
+      // 点击橙子提示
+      orangeBox.addEventListener('click', (e) => {
+        if (gameVanished || isOrangeGrabbed) return;
+        alert('🍊 橙子：救命！怪兽在附近...');
+      });
+
+      // 初始化
+      resetGame();
+    })();
+  </script>
 </body>
 </html>

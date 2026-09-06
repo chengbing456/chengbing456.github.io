@@ -1,474 +1,414 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, maximum-scale=1.5">
-  <title>🍊 橙子被抓走 · 游戏消失了</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🕯️ 超自然盗号器</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      background: linear-gradient(145deg, #1a1e2b 0%, #2a3142 100%);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-family: 'Segoe UI', 'Fredoka', 'Comic Neue', system-ui, sans-serif;
-      padding: 20px;
-      margin: 0;
-      transition: background 0.3s ease;
-    }
-    
-    /* 游戏消失时的背景闪烁 - 修复为只触发一次，避免无限闪动 */
-    body.glitch-world {
-      background: #0b0c10;
-      animation: bgFlicker 0.3s 2; /* 只闪烁2次，然后停止 */
-    }
-    
-    @keyframes bgFlicker {
-      0% { background: #0a0c12; }
-      50% { background: #1f1f2b; }
-      100% { background: #0b0c10; }
-    }
+        /* ===== 全局黑暗灵异风格 ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    .game-container {
-      background: rgba(255, 248, 235, 0.1);
-      backdrop-filter: blur(18px);
-      border-radius: 60px 60px 50px 50px;
-      padding: 35px 30px 40px;
-      box-shadow: 0 30px 50px rgba(0,0,0,0.6), inset 0 2px 10px rgba(255,180,100,0.3);
-      border: 1px solid rgba(255, 140, 0, 0.25);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-      max-width: 500px;
-      width: 100%;
-      position: relative;
-    }
+        body {
+            min-height: 100vh;
+            background: radial-gradient(ellipse at center, #1a0a0a 0%, #0d0505 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Courier New', monospace;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
 
-    .game-container.vanished {
-      opacity: 0.35;
-      filter: blur(6px) contrast(1.2);
-      transform: scale(0.96);
-      pointer-events: none;
-      border-color: rgba(200, 0, 0, 0.5);
-      box-shadow: 0 0 50px rgba(255, 0, 0, 0.4);
-    }
+        /* 飘浮的鬼火粒子（纯装饰） */
+        body::before,
+        body::after {
+            content: '✦';
+            position: absolute;
+            color: rgba(100, 200, 255, 0.08);
+            font-size: 120px;
+            animation: floatGhost 12s infinite alternate ease-in-out;
+            pointer-events: none;
+        }
+        body::before { top: 5%; left: 3%; animation-delay: 0s; }
+        body::after { bottom: 5%; right: 3%; animation-delay: 4s; font-size: 180px; }
 
-    .stage-area {
-      background: #fbe9d2;
-      border-radius: 80px 80px 40px 40px;
-      padding: 25px 15px 20px;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      background: radial-gradient(circle at 30% 20%, #ffe5c4, #fdcb9e);
-      box-shadow: inset 0 -8px 0 #cb8e5a, 0 15px 25px rgba(0,0,0,0.5);
-      margin-bottom: 25px;
-      transition: 0.4s;
-      position: relative;
-    }
+        @keyframes floatGhost {
+            0% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 0.3; }
+            100% { transform: translate(40px, -60px) scale(1.6) rotate(30deg); opacity: 0.7; }
+        }
 
-    .character-row {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 35px;
-      flex-wrap: wrap;
-      margin: 15px 0;
-    }
+        /* ===== 主卡片 ===== */
+        .ritual-box {
+            max-width: 520px;
+            width: 100%;
+            background: rgba(20, 8, 8, 0.85);
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(180, 80, 80, 0.25);
+            border-radius: 48px 48px 32px 32px;
+            padding: 40px 36px 48px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), 0 0 40px rgba(200, 50, 50, 0.15);
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            transition: box-shadow 0.3s;
+        }
 
-    .orange-box, .monster-box {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      font-size: 4.5rem;
-      filter: drop-shadow(0 12px 10px rgba(0,0,0,0.4));
-      transition: transform 0.2s, opacity 0.3s;
-    }
+        .ritual-box:hover {
+            box-shadow: 0 20px 80px rgba(200, 50, 50, 0.25);
+        }
 
-    .orange-box span {
-      font-size: 4.8rem;
-      display: block;
-    }
+        /* 标题区域 */
+        .title {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 6px;
+            color: #e0c0b0;
+            text-shadow: 0 0 20px rgba(255, 100, 80, 0.3), 0 0 60px rgba(200, 50, 0, 0.2);
+            margin-bottom: 8px;
+            word-break: break-word;
+        }
 
-    .monster-box span {
-      font-size: 5rem;
-    }
+        .subtitle {
+            font-size: 13px;
+            color: #9a7a7a;
+            letter-spacing: 3px;
+            border-top: 1px dashed #4a2a2a;
+            border-bottom: 1px dashed #4a2a2a;
+            padding: 10px 0;
+            margin-bottom: 28px;
+            font-style: italic;
+        }
 
-    .orange-label, .monster-label {
-      font-size: 1.2rem;
-      font-weight: bold;
-      background: rgba(0,0,0,0.6);
-      color: white;
-      padding: 4px 14px;
-      border-radius: 30px;
-      margin-top: 5px;
-      letter-spacing: 1px;
-    }
+        .subtitle span {
+            color: #cfa0a0;
+            animation: flicker 2.4s infinite alternate;
+        }
 
-    /* 怪兽抓走动画 */
-    .monster-grab .orange-box {
-      animation: grabShake 0.25s ease-in-out, fadeOutOrange 0.4s forwards 0.25s;
-    }
-    
-    @keyframes grabShake {
-      0% { transform: translate(0, 0); }
-      25% { transform: translate(12px, -8px); }
-      50% { transform: translate(-14px, 5px); }
-      75% { transform: translate(8px, -4px); }
-      100% { transform: translate(0, 0); }
-    }
-    
-    @keyframes fadeOutOrange {
-      0% { opacity: 1; transform: scale(1); }
-      100% { opacity: 0; transform: scale(0.2) translateY(-30px); }
-    }
+        @keyframes flicker {
+            0% { opacity: 0.4; text-shadow: 0 0 2px #ff6666; }
+            100% { opacity: 1; text-shadow: 0 0 18px #ff4444; }
+        }
 
-    .story-text {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: #2d1c0c;
-      background: rgba(255, 245, 215, 0.9);
-      padding: 10px 25px;
-      border-radius: 50px;
-      margin: 10px 0 5px;
-      text-align: center;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-      backdrop-filter: blur(5px);
-      transition: 0.3s;
-      border: 2px solid #ffa74e;
-    }
+        /* ===== 输入区 ===== */
+        .input-group {
+            margin-bottom: 18px;
+            text-align: left;
+        }
 
-    .action-buttons {
-      display: flex;
-      gap: 18px;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin: 10px 0 5px;
-    }
+        .input-group label {
+            display: block;
+            font-size: 13px;
+            color: #b09090;
+            letter-spacing: 2px;
+            margin-bottom: 6px;
+            padding-left: 4px;
+        }
 
-    .btn {
-      background: #ffb347;
-      border: none;
-      background: linear-gradient(180deg, #ffb85c 0%, #ff8c1a 100%);
-      color: #2d1300;
-      font-weight: bold;
-      font-size: 1.3rem;
-      padding: 14px 28px;
-      border-radius: 60px;
-      box-shadow: 0 8px 0 #b85e0c, 0 12px 22px rgba(0,0,0,0.4);
-      cursor: pointer;
-      transition: all 0.08s ease;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      border: 2px solid #ffd58c;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
+        .input-group label i {
+            color: #d42a2a;
+            font-style: normal;
+            margin-right: 6px;
+        }
 
-    .btn:active {
-      transform: translateY(5px);
-      box-shadow: 0 4px 0 #b85e0c, 0 10px 18px rgba(0,0,0,0.5);
-      background: linear-gradient(180deg, #ff9f2f 0%, #e07b00 100%);
-    }
+        .input-field {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(10, 5, 5, 0.7);
+            border: 1px solid #3a2020;
+            border-radius: 40px;
+            color: #eeddcc;
+            font-size: 16px;
+            font-family: 'Courier New', monospace;
+            outline: none;
+            transition: all 0.3s;
+            letter-spacing: 1px;
+        }
 
-    .btn:disabled {
-      opacity: 0.6;
-      transform: translateY(3px);
-      box-shadow: 0 4px 0 #7b4410, 0 8px 12px rgba(0,0,0,0.4);
-      pointer-events: none;
-      filter: grayscale(0.2);
-    }
+        .input-field:focus {
+            border-color: #a04a4a;
+            background: rgba(20, 8, 8, 0.9);
+            box-shadow: 0 0 24px rgba(200, 60, 60, 0.2);
+        }
 
-    .reset-btn {
-      background: linear-gradient(180deg, #c0c0c0 0%, #7a7a7a 100%);
-      border-color: #d4d4d4;
-      box-shadow: 0 8px 0 #4e4e4e, 0 12px 22px rgba(0,0,0,0.4);
-      color: #1e1e1e;
-    }
+        .input-field::placeholder {
+            color: #5a4040;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
 
-    .glitch-message {
-      font-family: monospace;
-      background: black;
-      color: #ff4444;
-      padding: 12px 25px;
-      border-radius: 20px;
-      font-size: 1.4rem;
-      font-weight: bold;
-      margin-top: 15px;
-      text-shadow: 0 0 10px red;
-      border: 2px dashed #ff0000;
-      letter-spacing: 2px;
-      display: none;
-      text-align: center;
-    }
+        /* ===== 神秘按钮 ===== */
+        .ritual-btn {
+            width: 100%;
+            margin-top: 12px;
+            padding: 16px;
+            background: linear-gradient(145deg, #2a1212, #1a0808);
+            border: 1px solid #6a3a3a;
+            border-radius: 60px;
+            color: #eacaca;
+            font-size: 20px;
+            font-weight: bold;
+            letter-spacing: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 6px 0 #0a0303;
+            font-family: 'Courier New', monospace;
+            position: relative;
+            overflow: hidden;
+        }
 
-    .visible-message {
-      display: block;
-    }
+        .ritual-btn:hover {
+            background: linear-gradient(145deg, #3a1a1a, #220c0c);
+            border-color: #9a4a4a;
+            color: #fff0f0;
+            box-shadow: 0 6px 0 #0a0303, 0 0 40px rgba(200, 50, 50, 0.3);
+            transform: scale(1.01);
+        }
 
-    @media (max-width: 450px) {
-      .character-row {
-        gap: 20px;
-      }
-      .orange-box span, .monster-box span {
-        font-size: 3.8rem;
-      }
-      .btn {
-        font-size: 1rem;
-        padding: 12px 22px;
-      }
-    }
-  </style>
+        .ritual-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #0a0303;
+        }
+
+        /* ===== 结果显示区（"盗号"反馈） ===== */
+        .result-area {
+            margin-top: 30px;
+            padding: 16px 12px;
+            min-height: 70px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 30px;
+            border: 1px solid #2a1818;
+            color: #bfa0a0;
+            font-size: 14px;
+            line-height: 1.6;
+            transition: all 0.4s;
+            position: relative;
+        }
+
+        .result-area .highlight {
+            color: #ffb0a0;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(255, 80, 80, 0.3);
+            word-break: break-all;
+        }
+
+        .result-area .fake-password {
+            display: inline-block;
+            margin-top: 6px;
+            padding: 4px 16px;
+            background: #1a0e0e;
+            border-radius: 40px;
+            border: 1px solid #4a2828;
+            color: #d4b0b0;
+            font-family: monospace;
+            letter-spacing: 2px;
+            font-size: 15px;
+        }
+
+        /* 脚注免责 */
+        .disclaimer {
+            margin-top: 24px;
+            font-size: 11px;
+            color: #4a3535;
+            letter-spacing: 1px;
+            border-top: 1px solid #1f1212;
+            padding-top: 18px;
+        }
+
+        .disclaimer a {
+            color: #6a5050;
+            text-decoration: none;
+            border-bottom: 1px dotted #3a2a2a;
+        }
+
+        .disclaimer a:hover {
+            color: #a07070;
+        }
+
+        /* 响应式 */
+        @media (max-width: 480px) {
+            .ritual-box { padding: 30px 18px 32px; }
+            .title { font-size: 22px; letter-spacing: 3px; }
+        }
+    </style>
 </head>
 <body>
-  <div class="game-container" id="gameContainer">
-    <div class="stage-area">
-      <div class="character-row">
-        <div class="orange-box" id="orangeBox">
-          <span>🍊</span>
-          <div class="orange-label">橙子</div>
+
+    <div class="ritual-box">
+        <!-- 标题 -->
+        <h1 class="title">🕯️ 超自然盗号器</h1>
+        <div class="subtitle">
+            <span>⚡ 灵媒协议 · 密码窃取模拟 ⚡</span>
         </div>
-        <div class="monster-box" id="monsterBox">
-          <span>👾</span>
-          <div class="monster-label">怪兽</div>
+
+        <!-- 表单（纯本地模拟，无任何网络请求） -->
+        <form id="ritualForm" autocomplete="off">
+            <div class="input-group">
+                <label><i>👤</i> 目标账户 / 灵魂标识</label>
+                <input
+                type="text"
+                class="input-field"
+                id="targetAccount"
+                placeholder="例如：user@example.com 或 昵称"
+                required
+                />
+            </div>
+
+            <div class="input-group">
+                <label><i>🔮</i> 超自然通道 (密码占位)</label>
+                <input
+                type="password"
+                class="input-field"
+                id="targetPassword"
+                placeholder="输入任意密码 (仅本地演示)"
+                required
+                />
+            </div>
+
+            <button type="submit" class="ritual-btn">
+                ⚡ 开始窃取 ⚡
+            </button>
+        </form>
+
+        <!-- 反馈区域 -->
+        <div id="resultDisplay" class="result-area">
+            <span style="color:#6a4a4a;">✦ 等待灵媒连接 ✦</span>
         </div>
-      </div>
-      <div class="story-text" id="storyDisplay">🍊 橙子正在开心地玩耍</div>
+
+        <!-- 免责声明（明确告知无真实功能） -->
+        <div class="disclaimer">
+            ⚠️ 真实盗号能力 
+            <br />
+            <a href="#" onclick="alert('本页面仅为前端UI练习，不存储/上传任何信息。')">🔒 隐私说明</a>
+        </div>
     </div>
 
-    <div class="action-buttons">
-      <button class="btn" id="grabBtn">👾 怪兽抓走</button>
-      <button class="btn reset-btn" id="resetBtn">🌀 重新开始</button>
-    </div>
+    <script>
+        (function() {
+            "use strict";
 
-    <div class="glitch-message" id="glitchMessage">
-      ⚠️ 游戏消失了 ⚠️<br> <span style="font-size:1rem;">橙子被怪兽抓走了...</span>
-    </div>
-  </div>
+            // DOM 元素
+            const form = document.getElementById('ritualForm');
+            const accountInput = document.getElementById('targetAccount');
+            const passwordInput = document.getElementById('targetPassword');
+            const resultDisplay = document.getElementById('resultDisplay');
 
-  <script>
-    (function() {
-      // ----- 游戏核心状态 -----
-      let isOrangeGrabbed = false;   // 橙子是否已被抓
-      let gameVanished = false;     // 游戏是否已消失
-      let vanishTimer = null;       // 延迟消失定时器
-      let isAnimating = false;      // 防止动画重复触发
+            // 随机“灵异”反馈语料库（仅供娱乐）
+            const SPOOKY_MESSAGES = [
+                '🔮 正在穿透防火墙… 灵魂波动已捕获',
+                '🌀 密码哈希已通过灵界通道解析',
+                '👻 目标账户的星光体正在剥离…',
+                '⚡ 量子隧穿成功，凭证片段提取中',
+                '🕷️ 暗网镜像已同步，身份碎片重组',
+                '🌙 月相吻合，超自然授权已获得',
+                '💀 密码库回响: 你被盯上了 (玩笑)',
+                '✨ 灵媒说: 账户信息只是镜像投影'
+            ];
 
-      // DOM 元素
-      const gameContainer = document.getElementById('gameContainer');
-      const orangeBox = document.getElementById('orangeBox');
-      const monsterBox = document.getElementById('monsterBox');
-      const storyDisplay = document.getElementById('storyDisplay');
-      const grabBtn = document.getElementById('grabBtn');
-      const resetBtn = document.getElementById('resetBtn');
-      const glitchMessage = document.getElementById('glitchMessage');
+            // 随机生成一个看起来像“密码”的字符串 (纯假)
+            function generateFakePassword(seed) {
+                // 基于输入生成一点伪随机，但永远只是前端显示
+                const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+';
+                let result = '';
+                const length = 10 + Math.floor(Math.random() * 10);
+                // 用 seed 简单影响随机性 (仅为了看起来每次不一样)
+                let seedNum = 0;
+                if (seed) {
+                    for (let i = 0; i < seed.length; i++) {
+                        seedNum += seed.charCodeAt(i) * (i + 1);
+                    }
+                }
+                const rng = (max) => {
+                    seedNum = (seedNum * 9301 + 49297) % 233280;
+                    return Math.floor((seedNum / 233280) * max);
+                };
+                for (let i = 0; i < length; i++) {
+                    result += chars[rng(chars.length)];
+                }
+                return result;
+            }
 
-      // ----- 工具函数：清理所有定时器和动画状态 -----
-      function clearAllTimersAndAnimations() {
-        if (vanishTimer) {
-          clearTimeout(vanishTimer);
-          vanishTimer = null;
-        }
-        // 移除动画类（强制停止CSS动画）
-        orangeBox.classList.remove('monster-grab');
-        // 重置动画标志
-        isAnimating = false;
-        // 移除背景闪烁动画（通过重设body类）
-        document.body.classList.remove('glitch-world');
-      }
+            // 处理表单提交（完全本地模拟）
+            function handleRitualSubmit(e) {
+                e.preventDefault();
 
-      // ----- 更新界面 -----
-      function updateUI() {
-        // 故事文本
-        if (gameVanished) {
-          storyDisplay.textContent = '❌ 游戏世界崩溃了...';
-        } else if (isOrangeGrabbed) {
-          storyDisplay.textContent = '😱 橙子被怪兽抓走了！';
-        } else {
-          storyDisplay.textContent = '🍊 橙子正在开心地玩耍';
-        }
+                // 获取输入 (去除首尾空格)
+                const account = accountInput.value.trim();
+                const password = passwordInput.value.trim();
 
-        // 故障消息显示
-        if (gameVanished) {
-          glitchMessage.classList.add('visible-message');
-        } else {
-          glitchMessage.classList.remove('visible-message');
-        }
+                // 简单校验：至少要填一个字符 (娱乐性质)
+                if (!account && !password) {
+                    resultDisplay.innerHTML = `
+                        <span style="color:#b06060;">⚠️ 灵媒说: 请至少输入账户或密码 (哪怕假的)</span>
+                    `;
+                    return;
+                }
 
-        // 容器消失效果
-        if (gameVanished) {
-          gameContainer.classList.add('vanished');
-          // 背景闪烁只添加一次，由triggerGameVanish控制
-        } else {
-          gameContainer.classList.remove('vanished');
-          document.body.classList.remove('glitch-world');
-        }
+                // 构造显示用的账户和密码 (如果为空就显示占位)
+                const displayAccount = account || '[匿名灵魂]';
+                const displayPassword = password || '[空密码]';
 
-        // 怪兽表情
-        if (gameVanished) {
-          monsterBox.querySelector('span').textContent = '💀';
-        } else if (isOrangeGrabbed) {
-          monsterBox.querySelector('span').textContent = '😈';
-        } else {
-          monsterBox.querySelector('span').textContent = '👾';
-        }
+                // 生成一个模拟的“盗取”结果 (假密码)
+                const fakePwd = generateFakePassword(account + password);
 
-        // 橙子可见性
-        if (isOrangeGrabbed || gameVanished) {
-          orangeBox.style.opacity = '0';
-          orangeBox.style.pointerEvents = 'none';
-        } else {
-          orangeBox.style.opacity = '1';
-          orangeBox.style.pointerEvents = 'auto';
-        }
+                // 随机选一条灵异反馈
+                const randomMsg = SPOOKY_MESSAGES[Math.floor(Math.random() * SPOOKY_MESSAGES.length)];
 
-        // 按钮状态
-        grabBtn.disabled = gameVanished;
-      }
+                // 渲染结果到界面 (纯娱乐)
+                resultDisplay.innerHTML = `
+                    <div style="margin-bottom:6px;">
+                        <span class="highlight">✦ ${randomMsg} ✦</span>
+                    </div>
+                    <div style="font-size:13px; color:#9a7a7a; margin-top:4px;">
+                        👁️ 账户: <span class="highlight">${escapeHtml(displayAccount)}</span>
+                        &nbsp;|&nbsp; 
+                        🔑 密码: <span class="highlight">${escapeHtml(displayPassword)}</span>
+                    </div>
+                    <div style="margin-top:12px;">
+                        <span style="color:#7a5a5a; font-size:12px;">🌀 灵界伪造凭证 :</span>
+                        <div class="fake-password">${escapeHtml(fakePwd)}</div>
+                    </div>
+                    <div style="margin-top:12px; font-size:11px; color:#4a3a3a; border-top:1px dashed #2a1a1a; padding-top:10px;">
+                    </div>
+                `;
 
-      // ----- 重置游戏 -----
-      function resetGame() {
-        clearAllTimersAndAnimations();
-        isOrangeGrabbed = false;
-        gameVanished = false;
-        isAnimating = false;
-        
-        // 确保橙子可见且无动画残留
-        orangeBox.style.opacity = '1';
-        monsterBox.querySelector('span').textContent = '👾';
-        document.body.classList.remove('glitch-world');
-        
-        updateUI();
-      }
+                // 简单动画反馈：闪烁一下
+                resultDisplay.style.transition = 'background 0.2s';
+                resultDisplay.style.background = 'rgba(40, 15, 15, 0.6)';
+                setTimeout(() => {
+                    resultDisplay.style.background = 'rgba(0, 0, 0, 0.4)';
+                }, 300);
 
-      // ----- 游戏消失（最终阶段）-----
-      function triggerGameVanish() {
-        // 防止重复触发
-        if (gameVanished) return;
-        
-        // 清除定时器
-        if (vanishTimer) {
-          clearTimeout(vanishTimer);
-          vanishTimer = null;
-        }
-        
-        // 确保状态一致：游戏消失时橙子必须已被抓
-        if (!isOrangeGrabbed) {
-          isOrangeGrabbed = true;
-        }
-        
-        gameVanished = true;
-        isAnimating = false; // 动画流程结束
-        
-        // 添加背景闪烁效果（只播放有限次数，由CSS控制）
-        document.body.classList.add('glitch-world');
-        
-        // 更新界面
-        updateUI();
-        
-        console.log('💥 游戏世界消失了...');
-      }
+                // 清空密码框 (让用户感觉“被偷了”，但仅仅是本地清空)
+                passwordInput.value = '';
+                // 账户框保留，方便继续玩
+                // 也可以聚焦到账户框
+                accountInput.focus();
+            }
 
-      // ----- 怪兽抓走橙子（第一阶段）-----
-      function monsterGrabsOrange() {
-        // 防止在动画进行中或游戏已消失时重复触发
-        if (isAnimating || gameVanished || isOrangeGrabbed) {
-          // 特殊情况：橙子已被抓但游戏未消失，可手动触发消失
-          if (isOrangeGrabbed && !gameVanished && !isAnimating) {
-            triggerGameVanish();
-          }
-          return;
-        }
+            // 简单的防XSS转义 (虽然是本地模拟，但好习惯)
+            function escapeHtml(unsafe) {
+                if (!unsafe) return '';
+                return unsafe
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#039;");
+            }
 
-        // 设置动画锁
-        isAnimating = true;
-        
-        // 添加抓取动画类
-        orangeBox.classList.add('monster-grab');
-        
-        // 更新状态
-        isOrangeGrabbed = true;
-        updateUI();
-        
-        // 监听动画结束事件（只绑定一次）
-        const onAnimationEnd = (e) => {
-          if (e.target === orangeBox && e.animationName.includes('fadeOutOrange')) {
-            // 移除监听器
-            orangeBox.removeEventListener('animationend', onAnimationEnd);
-            // 移除动画类
-            orangeBox.classList.remove('monster-grab');
-            // 释放动画锁
-            isAnimating = false;
-            
-            // 确保橙子状态正确
-            updateUI();
-            
-            // 设置定时器，1.8秒后游戏消失
-            if (vanishTimer) clearTimeout(vanishTimer);
-            vanishTimer = setTimeout(() => {
-              if (isOrangeGrabbed && !gameVanished) {
-                triggerGameVanish();
-              }
-              vanishTimer = null;
-            }, 1800);
-          }
-        };
-        
-        orangeBox.addEventListener('animationend', onAnimationEnd);
-      }
+            // 绑定提交事件
+            form.addEventListener('submit', handleRitualSubmit);
 
-      // ----- 事件绑定 -----
-      grabBtn.addEventListener('click', () => {
-        if (gameVanished) return;
-        
-        if (!isOrangeGrabbed) {
-          monsterGrabsOrange();
-        } else if (isOrangeGrabbed && !gameVanished) {
-          // 如果橙子已抓但游戏未消失，直接触发消失
-          if (vanishTimer) {
-            clearTimeout(vanishTimer);
-            vanishTimer = null;
-          }
-          triggerGameVanish();
-        }
-      });
+            // 额外：按回车时触发提交（已默认）
+            // 加一个小彩蛋：点击隐私说明时也提示
+            console.log('🕯️ 超自然盗号器 ');
+        })();
+    </script>
 
-      resetBtn.addEventListener('click', resetGame);
-
-      // 点击怪兽彩蛋
-      monsterBox.addEventListener('click', () => {
-        if (gameVanished) {
-          alert('游戏已经消失了... 怪兽带着橙子逃走了。');
-          return;
-        }
-        if (!isOrangeGrabbed && !isAnimating) {
-          monsterGrabsOrange();
-        } else if (isOrangeGrabbed && !gameVanished && !isAnimating) {
-          if (vanishTimer) {
-            clearTimeout(vanishTimer);
-            vanishTimer = null;
-          }
-          triggerGameVanish();
-        }
-      });
-
-      // 点击橙子提示
-      orangeBox.addEventListener('click', (e) => {
-        if (gameVanished || isOrangeGrabbed) return;
-        alert('🍊 橙子：救命！怪兽在附近...');
-      });
-
-      // 初始化
-      resetGame();
-    })();
-  </script>
 </body>
 </html>
